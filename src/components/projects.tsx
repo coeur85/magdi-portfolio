@@ -10,7 +10,7 @@ const projectsData = [
   {
     title: 'Project Alpha',
     description: 'A full-stack web application for project management, built with Next.js and .NET Core. Features real-time collaboration and a custom Kanban board.',
-    image: 'https://placehold.co/600x400.png',
+    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxkYXNoYm9hcmQlMjAlMjB8ZW58MHx8fHwxNzUyNTAzODE5fDA&ixlib=rb-4.1.0&q=80&w=1080',
     tags: ['Next.js', 'React', '.NET Core', 'SQL Server', 'Azure'],
     liveUrl: '#',
     githubUrl: '#',

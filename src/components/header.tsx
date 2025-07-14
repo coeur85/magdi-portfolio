@@ -42,7 +42,7 @@ export default function Header() {
             <Link
               key={link.href}
               href={link.href}
-              className="text-muted-foreground transition-colors hover:text-foreground"
+              className="text-muted-foreground transition-all hover:text-foreground hover:scale-105 active:scale-95"
               prefetch={false}
             >
               {link.label}
@@ -70,7 +70,7 @@ export default function Header() {
                     <Link
                       key={link.href}
                       href={link.href}
-                      className="flex w-full items-center py-2 text-lg font-semibold"
+                      className="flex w-full items-center py-2 text-lg font-semibold transition-all hover:scale-105 active:scale-95"
                       prefetch={false}
                       onClick={() => setOpen(false)}
                     >

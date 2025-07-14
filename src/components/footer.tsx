@@ -17,19 +17,19 @@ export default function Footer() {
             <p className="text-sm text-muted-foreground">&copy; {new Date().getFullYear()} Ahmed Magdi. All rights reserved.</p>
         </div>
         <div className="flex gap-4">
-          <Link href="https://github.com/coeur85" target="_blank" className="text-muted-foreground hover:text-foreground" prefetch={false}>
+          <Link href="https://github.com/coeur85" target="_blank" className="text-muted-foreground transition-all hover:text-foreground hover:scale-110 active:scale-95" prefetch={false}>
             <Github className="h-6 w-6" />
             <span className="sr-only">GitHub</span>
           </Link>
-          <Link href="https://www.linkedin.com/in/ahmedmmagdi/" target="_blank" className="text-muted-foreground hover:text-foreground" prefetch={false}>
+          <Link href="https://www.linkedin.com/in/ahmedmmagdi/" target="_blank" className="text-muted-foreground transition-all hover:text-foreground hover:scale-110 active:scale-95" prefetch={false}>
             <Linkedin className="h-6 w-6" />
             <span className="sr-only">LinkedIn</span>
           </Link>
-          <Link href="https://upwork.com/freelancers/magdi" target="_blank" className="text-muted-foreground hover:text-foreground" prefetch={false}>
+          <Link href="https://upwork.com/freelancers/magdi" target="_blank" className="text-muted-foreground transition-all hover:text-foreground hover:scale-110 active:scale-95" prefetch={false}>
             <UpworkIcon className="h-6 w-6" />
             <span className="sr-only">Upwork</span>
           </Link>
-          <Link href="mailto:me@amagdi.dev" className="text-muted-foreground hover:text-foreground" prefetch={false}>
+          <Link href="mailto:me@amagdi.dev" className="text-muted-foreground transition-all hover:text-foreground hover:scale-110 active:scale-95" prefetch={false}>
             <Mail className="h-6 w-6" />
             <span className="sr-only">Email</span>
           </Link>

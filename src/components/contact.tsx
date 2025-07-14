@@ -23,6 +23,7 @@ const contactSchema = z.object({
 type ContactFormValues = z.infer<typeof contactSchema>;
 
 const contactDetails = [
+  { name: 'Alexandria, Egypt', icon: <MapPin className="h-8 w-8" />, href: null },
   { name: 'Email', icon: <Mail className="h-8 w-8" />, href: 'mailto:me@amagdi.dev', target: '_self' },
   { name: 'LinkedIn', icon: <Linkedin className="h-8 w-8" />, href: 'https://www.linkedin.com/in/ahmedmmagdi/', target: '_blank' },
   { name: 'GitHub', icon: <Github className="h-8 w-8" />, href: 'https://github.com/coeur85', target: '_blank' },
@@ -61,26 +62,25 @@ export default function Contact() {
         <div className="grid gap-12 lg:grid-cols-2">
           <div className="space-y-6 flex flex-col justify-center">
             <h3 className="text-2xl font-bold font-headline">Contact Information</h3>
-            <div className="flex items-center gap-4">
-              <div className="bg-accent/20 text-accent rounded-full p-3">
-                <MapPin className="h-8 w-8" />
-              </div>
-              <p className="text-lg">Alexandria, Egypt</p>
-            </div>
             <p className="text-muted-foreground">
-              You can also reach me through the following channels:
+              You can find me in Alexandria, Egypt, or reach me through the following channels:
             </p>
             <div className="flex items-center gap-4">
               <TooltipProvider>
                 {contactDetails.map((detail) => (
                   <Tooltip key={detail.name}>
                     <TooltipTrigger asChild>
-                      <Link href={detail.href} target={detail.target} prefetch={false}>
-                        <div className="bg-accent/20 text-accent rounded-full p-3 transform transition-transform hover:scale-110">
-                          {detail.icon}
+                      {detail.href ? (
+                        <Link href={detail.href} target={detail.target} prefetch={false} className="bg-accent/20 text-accent rounded-full p-3 transform transition-transform hover:scale-110">
+                            {detail.icon}
+                            <span className="sr-only">{detail.name}</span>
+                        </Link>
+                      ) : (
+                        <div className="bg-accent/20 text-accent rounded-full p-3 transform transition-transform hover:scale-110 cursor-default">
+                           {detail.icon}
+                           <span className="sr-only">{detail.name}</span>
                         </div>
-                         <span className="sr-only">{detail.name}</span>
-                      </Link>
+                      )}
                     </TooltipTrigger>
                     <TooltipContent>
                       <p>{detail.name}</p>

@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Github, ExternalLink } from 'lucide-react';
+import { StackIcon } from '@/components/stack-icon';
 
 const projectsData = [
   {
@@ -61,10 +62,11 @@ export default function Projects() {
               <div className="flex flex-col flex-1 p-6">
                 <CardTitle className="font-headline text-xl mb-2">{project.title}</CardTitle>
                 <CardDescription className="flex-1 text-muted-foreground">{project.description}</CardDescription>
-                <div className="flex flex-wrap gap-2 mt-4">
+                <div className="flex flex-wrap items-center gap-2 mt-4">
                   {project.tags.map((tag) => (
-                    <Badge key={tag} variant="outline" className="border-accent text-accent">
-                      {tag}
+                    <Badge key={tag} variant="outline" className="flex items-center gap-1 border-accent text-accent">
+                       <StackIcon name={tag} className="h-4 w-4" />
+                      <span>{tag}</span>
                     </Badge>
                   ))}
                 </div>

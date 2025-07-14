@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Database, Code, CloudCog } from 'lucide-react';
+import { StackIcon } from './stack-icon';
 
 const skillsData = {
   'Database Administration': {
@@ -37,8 +38,9 @@ export default function Skills() {
               <CardContent>
                 <div className="flex flex-wrap gap-2">
                   {skills.map((skill) => (
-                    <Badge key={skill} variant="secondary" className="text-sm py-1 px-3 bg-primary/50 text-foreground">
-                      {skill}
+                    <Badge key={skill} variant="secondary" className="flex items-center gap-2 text-sm py-1 px-3 bg-primary/50 text-foreground">
+                      <StackIcon name={skill} className="h-4 w-4" />
+                      <span>{skill}</span>
                     </Badge>
                   ))}
                 </div>

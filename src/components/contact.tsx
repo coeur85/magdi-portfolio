@@ -9,10 +9,12 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
-import { Github, Linkedin, Mail, MapPin } from 'lucide-react';
+import { Github, Linkedin, Mail, MapPin, LoaderCircle } from 'lucide-react';
 import Link from 'next/link';
 import { StackIcon } from './stack-icon';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { useState } from 'react';
+import { processContactMessage, ContactFormInput } from '@/ai/flows/contact-flow';
 
 const contactSchema = z.object({
   name: z.string().min(2, 'Name is too short'),
@@ -45,18 +47,31 @@ const contactDetails = [
 
 export default function Contact() {
   const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactSchema),
     defaultValues: { name: '', email: '', message: '' },
   });
 
-  const onSubmit: SubmitHandler<ContactFormValues> = (data) => {
-    console.log(data);
-    toast({
-      title: "Message Sent!",
-      description: "Thanks for reaching out. I'll get back to you soon.",
-    });
-    form.reset();
+  const onSubmit: SubmitHandler<ContactFormValues> = async (data: ContactFormInput) => {
+    setIsSubmitting(true);
+    try {
+      const result = await processContactMessage(data);
+      toast({
+        title: "Message Sent!",
+        description: `Thanks for reaching out. I've categorized your message as: ${result.category}. I'll get back to you soon.`,
+      });
+      form.reset();
+    } catch (error) {
+      console.error("Error processing contact form:", error);
+      toast({
+        title: "Error",
+        description: "Something went wrong. Please try again later.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -114,25 +129,28 @@ export default function Contact() {
                   <FormField control={form.control} name="name" render={({ field }) => (
                     <FormItem>
                       <FormLabel>Your Name</FormLabel>
-                      <FormControl><Input placeholder="John Doe" {...field} /></FormControl>
+                      <FormControl><Input placeholder="John Doe" {...field} disabled={isSubmitting} /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )} />
                   <FormField control={form.control} name="email" render={({ field }) => (
                     <FormItem>
                       <FormLabel>Your Email</FormLabel>
-                      <FormControl><Input placeholder="you@example.com" {...field} /></FormControl>
+                      <FormControl><Input placeholder="you@example.com" {...field} disabled={isSubmitting} /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )} />
                   <FormField control={form.control} name="message" render={({ field }) => (
                     <FormItem>
                       <FormLabel>Your Message</FormLabel>
-                      <FormControl><Textarea placeholder="I'd like to discuss..." {...field} /></FormControl>
+                      <FormControl><Textarea placeholder="I'd like to discuss..." {...field} disabled={isSubmitting} /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )} />
-                  <Button type="submit" className="w-full sm:w-auto">Send Message</Button>
+                  <Button type="submit" className="w-full sm:w-auto" disabled={isSubmitting}>
+                    {isSubmitting ? <LoaderCircle className="animate-spin" /> : <Mail />}
+                    {isSubmitting ? 'Sending...' : 'Send Message'}
+                  </Button>
                 </form>
               </Form>
             </CardContent>

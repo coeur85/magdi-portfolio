@@ -91,7 +91,7 @@ const ProjectCard3D: React.FC<{ project: Project }> = ({ project }) => {
       }}
       className="relative"
     >
-      <Card key={project.title} className="flex flex-col overflow-hidden bg-card/50 backdrop-blur-sm border-primary/20 h-full w-full" style={{transform: 'translateZ(75px)'}}>
+      <Card key={project.title} className="shadow-lg dark:shadow-accent/20 flex flex-col overflow-hidden bg-card/50 backdrop-blur-sm border-primary/20 h-full w-full" style={{transform: 'translateZ(75px)'}}>
         <CardHeader className="p-0">
           <Image
             src={project.image}

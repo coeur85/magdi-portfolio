@@ -11,6 +11,7 @@ const navLinks = [
   { href: '#about', label: 'About' },
   { href: '#skills', label: 'Skills' },
   { href: '#projects', label: 'Projects' },
+  { href: '#contact', label: 'Contact' },
 ];
 
 export default function Header() {
@@ -29,16 +30,15 @@ export default function Header() {
       const windowHeight = window.innerHeight;
       const documentHeight = document.body.offsetHeight;
 
-      // Check if user has scrolled to the bottom of the page
-      if (scrollPosition + windowHeight >= documentHeight - 5) { // -5px buffer
-        const lastSection = navLinks[navLinks.length - 1];
+      if (scrollPosition + windowHeight >= documentHeight - 5) {
+        const lastSection = navLinks.find(link => link.href ==='#contact');
         if (lastSection) {
             currentSection = lastSection.href;
         }
       } else {
         for (const section of sections) {
           if (section) {
-            const sectionTop = section.offsetTop - 100; //-100 to make it more accurate
+            const sectionTop = section.offsetTop - 100;
             if (scrollPosition >= sectionTop) {
               currentSection = `#${section.id}`;
             }

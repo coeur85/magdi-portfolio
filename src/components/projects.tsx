@@ -115,22 +115,6 @@ const ProjectCard3D: React.FC<{ project: Project }> = ({ project }) => {
           </div>
         </div>
         <CardFooter className="p-6 pt-0">
-          <div className="flex gap-2">
-            {project.githubUrl && (
-              <Button variant="outline" asChild>
-                <Link href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-                  <Github className="mr-2 h-4 w-4" /> GitHub
-                </Link>
-              </Button>
-            )}
-            {project.liveUrl && (
-              <Button asChild>
-                <Link href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                  <ExternalLink className="mr-2 h-4 w-4" /> Live Demo
-                </Link>
-              </Button>
-            )}
-          </div>
         </CardFooter>
       </Card>
     </motion.div>
@@ -142,11 +126,11 @@ export default function Projects() {
   return (
     <section id="projects" className="relative w-full overflow-hidden py-20 md:py-32 bg-background" style={{perspective: '1000px'}}>
       <div className="absolute inset-0 z-0 opacity-[0.03]">
-        <StackIcon name="git" className="absolute h-24 w-24 top-10 right-10 text-foreground animate-float" style={{ animationDuration: '2.7s' }} />
-        <StackIcon name="terraform" className="absolute h-32 w-32 bottom-1/2 left-10 text-foreground animate-float" style={{ animationDelay: '-0.9s' }} />
-        <StackIcon name="blazor" className="absolute h-40 w-40 bottom-20 right-1/4 text-foreground animate-float" style={{ animationDuration: '3.3s' }} />
-        <StackIcon name="typescript" className="absolute h-20 w-20 top-1/2 left-3/4 text-foreground animate-float" style={{ animationDelay: '-0.3s' }} />
-        <StackIcon name="azure devops" className="absolute h-28 w-28 bottom-10 left-1/2 text-foreground animate-float" style={{ animationDuration: '3.6s', animationDelay: '-1.5s' }} />
+        <StackIcon name="git" className="absolute h-24 w-24 top-10 right-10 text-foreground animate-float" style={{ animationDuration: '1.62s' }} />
+        <StackIcon name="terraform" className="absolute h-32 w-32 bottom-1/2 left-10 text-foreground animate-float" style={{ animationDelay: '-0.54s' }} />
+        <StackIcon name="blazor" className="absolute h-40 w-40 bottom-20 right-1/4 text-foreground animate-float" style={{ animationDuration: '1.98s' }} />
+        <StackIcon name="typescript" className="absolute h-20 w-20 top-1/2 left-3/4 text-foreground animate-float" style={{ animationDelay: '-0.18s' }} />
+        <StackIcon name="azure devops" className="absolute h-28 w-28 bottom-10 left-1/2 text-foreground animate-float" style={{ animationDuration: '2.16s', animationDelay: '-0.9s' }} />
       </div>
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">

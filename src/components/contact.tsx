@@ -56,9 +56,9 @@ export default function Contact() {
   return (
     <section id="contact" className="relative w-full overflow-hidden py-20 md:py-32 bg-secondary/20">
       <div className="absolute inset-0 z-0 opacity-[0.03]">
-        <StackIcon name="powershell" className="absolute h-24 w-24 top-10 left-10 text-foreground animate-float" style={{ animationDuration: '4.5s' }} />
-        <StackIcon name="bash" className="absolute h-32 w-32 bottom-20 right-10 text-foreground animate-float" style={{ animationDuration: '5.5s', animationDelay: '-1s' }} />
-        <StackIcon name="ci/cd pipelines" className="absolute h-28 w-28 top-1/2 right-1/2 text-foreground animate-float" style={{ animationDelay: '-2s' }} />
+        <StackIcon name="powershell" className="absolute h-24 w-24 top-10 left-10 text-foreground animate-float" style={{ animationDuration: '2.7s' }} />
+        <StackIcon name="bash" className="absolute h-32 w-32 bottom-20 right-10 text-foreground animate-float" style={{ animationDuration: '3.3s', animationDelay: '-0.6s' }} />
+        <StackIcon name="ci/cd pipelines" className="absolute h-28 w-28 top-1/2 right-1/2 text-foreground animate-float" style={{ animationDelay: '-1.2s' }} />
       </div>
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">

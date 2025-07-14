@@ -1,3 +1,5 @@
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -5,6 +7,8 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Github, ExternalLink } from 'lucide-react';
 import { StackIcon } from '@/components/stack-icon';
+import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import * as React from 'react';
 
 const projectsData = [
   {
@@ -45,9 +49,98 @@ const projectsData = [
   },
 ];
 
+type Project = typeof projectsData[0];
+
+const ProjectCard3D: React.FC<{ project: Project }> = ({ project }) => {
+  const cardRef = React.useRef<HTMLDivElement>(null);
+
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const mouseXSpring = useSpring(x);
+  const mouseYSpring = useSpring(y);
+
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ['12deg', '-12deg']);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ['-12deg', '12deg']);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const { width, height, left, top } = cardRef.current.getBoundingClientRect();
+    const mouseX = e.clientX - left;
+    const mouseY = e.clientY - top;
+    const xPct = mouseX / width - 0.5;
+    const yPct = mouseY / height - 0.5;
+    x.set(xPct);
+    y.set(yPct);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+  
+  return (
+    <motion.div
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{
+        transformStyle: 'preserve-3d',
+        rotateY,
+        rotateX,
+      }}
+      className="relative"
+    >
+      <Card key={project.title} className="flex flex-col overflow-hidden bg-card/50 backdrop-blur-sm border-primary/20 h-full w-full" style={{transform: 'translateZ(75px)'}}>
+        <CardHeader className="p-0">
+          <Image
+            src={project.image}
+            width={600}
+            height={400}
+            alt={`Screenshot of ${project.title}`}
+            className="object-cover w-full h-48"
+            data-ai-hint={project.aiHint}
+          />
+        </CardHeader>
+        <div className="flex flex-col flex-1 p-6">
+          <CardTitle className="font-headline text-xl mb-2">{project.title}</CardTitle>
+          <CardDescription className="flex-1 text-muted-foreground">{project.description}</CardDescription>
+          <div className="flex flex-wrap items-center gap-2 mt-4">
+            {project.tags.map((tag) => (
+              <Badge key={tag} variant="outline" className="flex items-center gap-1 border-accent text-accent">
+                 <StackIcon name={tag} className="h-4 w-4" />
+                <span>{tag}</span>
+              </Badge>
+            ))}
+          </div>
+        </div>
+        <CardFooter className="p-6 pt-0">
+          <div className="flex gap-2">
+            {project.githubUrl && (
+              <Button variant="outline" asChild>
+                <Link href={project.githubUrl} target="_blank" rel="noopener noreferrer">
+                  <Github className="mr-2 h-4 w-4" /> GitHub
+                </Link>
+              </Button>
+            )}
+            {project.liveUrl && (
+              <Button asChild>
+                <Link href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+                  <ExternalLink className="mr-2 h-4 w-4" /> Live Demo
+                </Link>
+              </Button>
+            )}
+          </div>
+        </CardFooter>
+      </Card>
+    </motion.div>
+  );
+};
+
+
 export default function Projects() {
   return (
-    <section id="projects" className="relative w-full overflow-hidden py-20 md:py-32 bg-background">
+    <section id="projects" className="relative w-full overflow-hidden py-20 md:py-32 bg-background" style={{perspective: '1000px'}}>
       <div className="absolute inset-0 z-0 opacity-[0.03]">
         <StackIcon name="git" className="absolute h-24 w-24 top-10 right-10 text-foreground animate-float" style={{ animationDuration: '2.7s' }} />
         <StackIcon name="terraform" className="absolute h-32 w-32 bottom-1/2 left-10 text-foreground animate-float" style={{ animationDelay: '-0.9s' }} />
@@ -64,48 +157,7 @@ export default function Projects() {
         </div>
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-2">
           {projectsData.map((project) => (
-            <Card key={project.title} className="flex flex-col overflow-hidden bg-card/50 backdrop-blur-sm border-primary/20 transform hover:-translate-y-2 transition-transform duration-300">
-              <CardHeader className="p-0">
-                <Image
-                  src={project.image}
-                  width={600}
-                  height={400}
-                  alt={`Screenshot of ${project.title}`}
-                  className="object-cover w-full h-48"
-                  data-ai-hint={project.aiHint}
-                />
-              </CardHeader>
-              <div className="flex flex-col flex-1 p-6">
-                <CardTitle className="font-headline text-xl mb-2">{project.title}</CardTitle>
-                <CardDescription className="flex-1 text-muted-foreground">{project.description}</CardDescription>
-                <div className="flex flex-wrap items-center gap-2 mt-4">
-                  {project.tags.map((tag) => (
-                    <Badge key={tag} variant="outline" className="flex items-center gap-1 border-accent text-accent">
-                       <StackIcon name={tag} className="h-4 w-4" />
-                      <span>{tag}</span>
-                    </Badge>
-                  ))}
-                </div>
-              </div>
-              <CardFooter className="p-6 pt-0">
-                <div className="flex gap-2">
-                  {project.githubUrl && (
-                    <Button variant="outline" asChild>
-                      <Link href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-                        <Github className="mr-2 h-4 w-4" /> GitHub
-                      </Link>
-                    </Button>
-                  )}
-                  {project.liveUrl && (
-                    <Button asChild>
-                      <Link href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                        <ExternalLink className="mr-2 h-4 w-4" /> Live Demo
-                      </Link>
-                    </Button>
-                  )}
-                </div>
-              </CardFooter>
-            </Card>
+            <ProjectCard3D key={project.title} project={project} />
           ))}
         </div>
       </div>

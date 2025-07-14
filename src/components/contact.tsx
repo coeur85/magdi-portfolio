@@ -22,10 +22,10 @@ const contactSchema = z.object({
 type ContactFormValues = z.infer<typeof contactSchema>;
 
 const contactDetails = [
-  { icon: <Mail className="h-5 w-5" />, text: 'magdi@example.com', href: 'mailto:magdi@example.com' },
-  { icon: <Linkedin className="h-5 w-5" />, text: 'linkedin.com/in/magdi', href: 'https://linkedin.com/in/magdi', target: '_blank' },
-  { icon: <Github className="h-5 w-5" />, text: 'github.com/magdi', href: 'https://github.com/magdi', target: '_blank' },
-  { icon: <MapPin className="h-5 w-5" />, text: 'San Francisco, CA', href: '#', target: '' },
+  { icon: <Mail className="h-5 w-5" />, text: 'me@amagdi.dev', href: 'mailto:me@amagdi.dev' },
+  { icon: <Linkedin className="h-5 w-5" />, text: 'linkedin.com/in/ahmedmmagdi', href: 'https://www.linkedin.com/in/ahmedmmagdi/', target: '_blank' },
+  { icon: <Github className="h-5 w-5" />, text: 'github.com/coeur85', href: 'https://github.com/coeur85', target: '_blank' },
+  { icon: <MapPin className="h-5 w-5" />, text: 'Alexandria, Egypt', href: '#', target: '' },
 ];
 
 export default function Contact() {

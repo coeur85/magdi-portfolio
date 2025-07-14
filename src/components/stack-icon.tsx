@@ -67,6 +67,13 @@ const TypescriptIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
     </svg>
 );
 
+const PythonIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
+  <svg {...props} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M10.25 15.25a2.5 2.5 0 0 1-5 0V8.5h5a2.5 2.5 0 0 1 0 5h-5M13.75 8.75a2.5 2.5 0 0 1 5 0v6.5h-5a2.5 2.5 0 0 1 0-5h5"/>
+    <path d="M12 22A10 10 0 0 0 22 12 10 10 0 0 0 12 2 10 10 0 0 0 2 12a10 10 0 0 0 10 10z"/>
+  </svg>
+);
+
 
 const iconMap: Record<string, React.ElementType> = {
   // Database
@@ -89,6 +96,7 @@ const iconMap: Record<string, React.ElementType> = {
   'javascript': JavascriptIcon,
   'typescript': TypescriptIcon,
   'restful apis': Code,
+  'python': PythonIcon,
   
   // DevOps & Cloud
   'azure': CloudCog,

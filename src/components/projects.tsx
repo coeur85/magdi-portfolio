@@ -8,6 +8,15 @@ import { StackIcon } from '@/components/stack-icon';
 
 const projectsData = [
   {
+    title: 'MCP (Model Context Protocol)',
+    description: 'Engineered a Model Context Protocol (MCP) for Claude 4, enabling it to diagnose complex SQL Server replication issues in a live production environment. The AI-driven solution proved highly effective.',
+    image: 'https://placehold.co/600x400.png',
+    tags: ['Python', 'SQL Server', 'Docker', '.NET Core'],
+    liveUrl: null,
+    githubUrl: '#',
+    aiHint: 'AI code'
+  },
+  {
     title: 'Project Alpha',
     description: 'A full-stack web application for project management, built with Blazor and .NET Core. Features real-time collaboration and a custom Kanban board.',
     image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxkYXNoYm9hcmQlMjAlMjB8ZW58MHx8fHwxNzUyNTAzODE5fDA&ixlib=rb-4.1.0&q=80&w=1080',
@@ -53,7 +62,7 @@ export default function Projects() {
             Here are some of the projects I'm proud to have worked on.
           </p>
         </div>
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-2">
           {projectsData.map((project) => (
             <Card key={project.title} className="flex flex-col overflow-hidden bg-card/50 backdrop-blur-sm border-primary/20 transform hover:-translate-y-2 transition-transform duration-300">
               <CardHeader className="p-0">

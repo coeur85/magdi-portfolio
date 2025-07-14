@@ -16,8 +16,8 @@ export default function Hero() {
       </div>
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <div className="grid gap-10 lg:grid-cols-2 items-center">
-          <div className="flex flex-col justify-center space-y-6">
+        <div className="grid gap-10 items-center">
+          <div className="flex flex-col justify-center items-center text-center space-y-6">
             <div className="space-y-4">
               <h1 className="font-headline text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none bg-clip-text text-transparent bg-gradient-to-r from-foreground/80 to-foreground">
                 Hi, I'm Magdi
@@ -38,16 +38,6 @@ export default function Hero() {
                 </a>
               </Button>
             </div>
-          </div>
-          <div className="flex items-center justify-center">
-            <Image
-              src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxwcm9mZXNzaW9uYWwlMjBoZWFkc2hvdCUyMG1hbnxlbnwwfHx8fDE3MjE4MTk0NDh8MA&ixlib=rb-4.1.0&q=80&w=1080"
-              width={400}
-              height={400}
-              alt="Magdi's Headshot"
-              className="rounded-full object-cover aspect-square shadow-2xl shadow-primary/20"
-              data-ai-hint="professional headshot"
-            />
           </div>
         </div>
       </div>

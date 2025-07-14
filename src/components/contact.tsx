@@ -28,12 +28,18 @@ const UpworkIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   </svg>
 );
 
+const XIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+  </svg>
+);
 
 const contactDetails = [
   { name: 'Alexandria, Egypt', icon: <MapPin className="h-8 w-8" />, href: null },
   { name: 'Email', icon: <Mail className="h-8 w-8" />, href: 'mailto:me@amagdi.dev', target: '_self' },
   { name: 'LinkedIn', icon: <Linkedin className="h-8 w-8" />, href: 'https://www.linkedin.com/in/ahmedmmagdi/', target: '_blank' },
   { name: 'GitHub', icon: <Github className="h-8 w-8" />, href: 'https://github.com/coeur85', target: '_blank' },
+  { name: 'X', icon: <XIcon className="h-8 w-8" />, href: 'https://x.com/Coeur85', target: '_blank' },
   { name: 'Upwork', icon: <UpworkIcon className="h-8 w-8" />, href: 'https://upwork.com/freelancers/magdi', target: '_blank' },
 ];
 

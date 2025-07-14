@@ -2,11 +2,18 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Download } from 'lucide-react';
 import Link from 'next/link';
+import { StackIcon } from './stack-icon';
 
 export default function Hero() {
   return (
-    <section id="about" className="w-full py-20 md:py-32 bg-background">
-      <div className="container mx-auto px-4 md:px-6">
+    <section id="about" className="relative w-full overflow-hidden py-20 md:py-32 bg-background">
+      <div className="absolute inset-0 z-0 opacity-[0.03]">
+        <StackIcon name=".net core" className="absolute h-32 w-32 top-1/4 left-1/4 transform -translate-x-1/2 -translate-y-1/2 text-foreground" />
+        <StackIcon name="react" className="absolute h-48 w-48 top-1/2 right-1/4 transform -translate-x-1/2 -translate-y-1/2 text-foreground" />
+        <StackIcon name="azure" className="absolute h-24 w-24 bottom-1/4 left-1/3 transform -translate-x-1/2 -translate-y-1/2 text-foreground" />
+      </div>
+
+      <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="grid gap-10 lg:grid-cols-2 items-center">
           <div className="flex flex-col justify-center space-y-6">
             <div className="space-y-4">

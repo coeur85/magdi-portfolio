@@ -38,8 +38,13 @@ const projectsData = [
 
 export default function Projects() {
   return (
-    <section id="projects" className="w-full py-20 md:py-32 bg-background">
-      <div className="container mx-auto px-4 md:px-6">
+    <section id="projects" className="relative w-full overflow-hidden py-20 md:py-32 bg-background">
+      <div className="absolute inset-0 z-0 opacity-[0.03]">
+        <StackIcon name="git" className="absolute h-24 w-24 top-10 right-10 text-foreground" />
+        <StackIcon name="terraform" className="absolute h-32 w-32 bottom-1/2 left-10 text-foreground" />
+        <StackIcon name="next.js" className="absolute h-40 w-40 bottom-20 right-1/4 text-foreground" />
+      </div>
+      <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
           <h2 className="text-3xl font-bold font-headline tracking-tighter sm:text-5xl">Featured Projects</h2>
           <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">

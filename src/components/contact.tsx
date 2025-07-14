@@ -11,6 +11,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { useToast } from '@/hooks/use-toast';
 import { Github, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
 import Link from 'next/link';
+import { StackIcon } from './stack-icon';
 
 const contactSchema = z.object({
   name: z.string().min(2, 'Name is too short'),
@@ -45,8 +46,12 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="w-full py-20 md:py-32 bg-background">
-      <div className="container mx-auto px-4 md:px-6">
+    <section id="contact" className="relative w-full overflow-hidden py-20 md:py-32 bg-secondary/20">
+      <div className="absolute inset-0 z-0 opacity-[0.03]">
+        <StackIcon name="powershell" className="absolute h-24 w-24 top-10 left-10 text-foreground" />
+        <StackIcon name="bash" className="absolute h-32 w-32 bottom-20 right-10 text-foreground" />
+      </div>
+      <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
           <h2 className="text-3xl font-bold font-headline tracking-tighter sm:text-5xl">Get In Touch</h2>
           <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed">

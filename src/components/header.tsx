@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Menu, BrainCircuit } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { ThemeToggle } from '@/components/theme-toggle';
 
 const navLinks = [
   { href: '#about', label: 'About' },
@@ -36,7 +37,7 @@ export default function Header() {
           <BrainCircuit className="h-7 w-7 text-accent" />
           <span className="text-xl font-bold font-headline text-foreground">Magdi Portfolio</span>
         </Link>
-        <nav className="hidden md:flex gap-6 text-sm font-medium">
+        <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
           {navLinks.map((link) => (
             <Link
               key={link.href}
@@ -47,8 +48,10 @@ export default function Header() {
               {link.label}
             </Link>
           ))}
+          <ThemeToggle />
         </nav>
-        <div className="md:hidden">
+        <div className="md:hidden flex items-center gap-2">
+          <ThemeToggle />
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon">

@@ -28,7 +28,7 @@ const projectsData = [
   {
     title: 'Legacy DB Modernization',
     description: 'A successful migration and modernization of a large-scale legacy SQL Server database, improving performance and scalability by over 50%.',
-    image: 'https://placehold.co/600x400.png',
+    image: 'https://images.unsplash.com/photo-1523120974498-9d764390d8e5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyMHx8a2V5Ym9hcmQlMjB8ZW58MHx8fHwxNzUyNTA0MTc5fDA&ixlib=rb-4.1.0&q=80&w=1080',
     tags: ['SQL Server', 'Database Migration', 'Query Tuning', 'ETL'],
     liveUrl: null,
     githubUrl: '#',

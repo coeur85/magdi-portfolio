@@ -41,7 +41,7 @@ export default function Hero() {
           </div>
           <div className="flex items-center justify-center">
             <Image
-              src="https://placehold.co/400x400.png"
+              src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxwcm9mZXNzaW9uYWwlMjBoZWFkc2hvdCUyMG1hbnxlbnwwfHx8fDE3MjE4MTk0NDh8MA&ixlib=rb-4.1.0&q=80&w=1080"
               width={400}
               height={400}
               alt="Magdi's Headshot"

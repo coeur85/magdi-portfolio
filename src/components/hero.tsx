@@ -9,7 +9,7 @@ export default function Hero() {
     <section id="about" className="relative w-full overflow-hidden py-20 md:py-32 bg-background">
       <div className="absolute inset-0 z-0 opacity-[0.03]">
         <StackIcon name=".net core" className="absolute h-32 w-32 top-1/4 left-1/4 transform -translate-x-1/2 -translate-y-1/2 text-foreground" />
-        <StackIcon name="react" className="absolute h-48 w-48 top-1/2 right-1/4 transform -translate-x-1/2 -translate-y-1/2 text-foreground" />
+        <StackIcon name="blazor" className="absolute h-48 w-48 top-1/2 right-1/4 transform -translate-x-1/2 -translate-y-1/2 text-foreground" />
         <StackIcon name="azure" className="absolute h-24 w-24 bottom-1/4 left-1/3 transform -translate-x-1/2 -translate-y-1/2 text-foreground" />
         <StackIcon name="c#" className="absolute h-20 w-20 top-20 right-1/2 text-foreground" />
         <StackIcon name="javascript" className="absolute h-28 w-28 bottom-10 left-3/4 text-foreground" />

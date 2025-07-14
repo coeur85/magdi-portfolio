@@ -9,9 +9,9 @@ import { StackIcon } from '@/components/stack-icon';
 const projectsData = [
   {
     title: 'Project Alpha',
-    description: 'A full-stack web application for project management, built with Next.js and .NET Core. Features real-time collaboration and a custom Kanban board.',
+    description: 'A full-stack web application for project management, built with Blazor and .NET Core. Features real-time collaboration and a custom Kanban board.',
     image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxkYXNoYm9hcmQlMjAlMjB8ZW58MHx8fHwxNzUyNTAzODE5fDA&ixlib=rb-4.1.0&q=80&w=1080',
-    tags: ['Next.js', 'React', '.NET Core', 'SQL Server', 'Azure'],
+    tags: ['Blazor', '.NET Core', 'SQL Server', 'Azure'],
     liveUrl: '#',
     githubUrl: '#',
     aiHint: 'dashboard data'
@@ -42,7 +42,7 @@ export default function Projects() {
       <div className="absolute inset-0 z-0 opacity-[0.03]">
         <StackIcon name="git" className="absolute h-24 w-24 top-10 right-10 text-foreground" />
         <StackIcon name="terraform" className="absolute h-32 w-32 bottom-1/2 left-10 text-foreground" />
-        <StackIcon name="next.js" className="absolute h-40 w-40 bottom-20 right-1/4 text-foreground" />
+        <StackIcon name="blazor" className="absolute h-40 w-40 bottom-20 right-1/4 text-foreground" />
         <StackIcon name="typescript" className="absolute h-20 w-20 top-1/2 left-3/4 text-foreground" />
         <StackIcon name="azure devops" className="absolute h-28 w-28 bottom-10 left-1/2 text-foreground" />
       </div>

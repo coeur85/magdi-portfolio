@@ -10,7 +10,7 @@ const skillsData = {
   },
   'Software Engineering': {
     icon: <Code className="h-8 w-8 text-accent" />,
-    skills: ['.NET Framework', 'C#', 'ASP.NET Core', 'React', 'Next.js', 'JavaScript', 'TypeScript', 'RESTful APIs'],
+    skills: ['.NET Framework', 'C#', 'ASP.NET Core', 'Blazor', 'JavaScript', 'TypeScript', 'RESTful APIs'],
   },
   'DevOps & Cloud': {
     icon: <CloudCog className="h-8 w-8 text-accent" />,

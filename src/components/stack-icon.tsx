@@ -18,6 +18,14 @@ interface StackIconProps extends React.SVGProps<SVGSVGElement> {
   name: string;
 }
 
+const BlazorIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
+  <svg {...props} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" strokeWidth="1">
+    <path d="M13.282 3.427l7.462 15.034a1.282 1.282 0 01-1.133 1.904H4.389a1.282 1.282 0 01-1.133-1.904L10.718 3.427a1.282 1.282 0 012.564 0z" />
+    <path d="M12 7.031c-3.218 0-5.828 2.61-5.828 5.828S8.782 18.687 12 18.687s5.828-2.61 5.828-5.828S15.218 7.031 12 7.031zm0 9.715a3.887 3.887 0 110-7.773 3.887 3.887 0 010 7.773z" fill="currentColor" />
+  </svg>
+);
+
+
 // Custom SVG Icons as React Components
 const DotNetIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   <svg {...props} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -42,22 +50,6 @@ const DockerIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   <svg {...props} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
     <path d="M22 12.86V21a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-8.14a1 1 0 0 1 .5-.87l8-4.5a1 1 0 0 1 1 0l8 4.5a1 1 0 0 1 .5.87zM20.5 11H22m-22 0h1.5M15.5 11H17m-3.5 0H15m-3.5 0H13m-3.5 0H11m-3.5 0H9m-3.5 0H7m-3.5 0H5m-3.5 0H3m8.5-3.5H13m-1.5 0H10m-1.5 0H7m6.5 3.5H15m-1.5 0H12m-1.5 0H9m6.5 3.5H17m-1.5 0H14m-1.5 0H11m-1.5 0H8"/>
     <path d="M11 2.5L2.5 7.5v4l9 5 9-5v-4L13 2.5h-2z" strokeWidth="2" />
-  </svg>
-);
-
-const NextjsIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-  <svg {...props} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M9 15V9l6 6V9" />
-    <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2z" />
-  </svg>
-);
-
-const ReactIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-  <svg {...props} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" strokeWidth="1.5">
-    <circle cx="12" cy="12" r="2"/>
-    <ellipse cx="12" cy="12" rx="11" ry="4" transform="rotate(60 12 12)"/>
-    <ellipse cx="12" cy="12" rx="11" ry="4" transform="rotate(120 12 12)"/>
-    <ellipse cx="12" cy="12" rx="11" ry="4"/>
   </svg>
 );
 
@@ -93,8 +85,7 @@ const iconMap: Record<string, React.ElementType> = {
   'c#': CSharpIcon,
   'asp.net core': DotNetIcon,
   '.net core': DotNetIcon,
-  'react': ReactIcon,
-  'next.js': NextjsIcon,
+  'blazor': BlazorIcon,
   'javascript': JavascriptIcon,
   'typescript': TypescriptIcon,
   'restful apis': Code,

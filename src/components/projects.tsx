@@ -43,6 +43,8 @@ export default function Projects() {
         <StackIcon name="git" className="absolute h-24 w-24 top-10 right-10 text-foreground" />
         <StackIcon name="terraform" className="absolute h-32 w-32 bottom-1/2 left-10 text-foreground" />
         <StackIcon name="next.js" className="absolute h-40 w-40 bottom-20 right-1/4 text-foreground" />
+        <StackIcon name="typescript" className="absolute h-20 w-20 top-1/2 left-3/4 text-foreground" />
+        <StackIcon name="azure devops" className="absolute h-28 w-28 bottom-10 left-1/2 text-foreground" />
       </div>
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">

@@ -50,6 +50,7 @@ export default function Contact() {
       <div className="absolute inset-0 z-0 opacity-[0.03]">
         <StackIcon name="powershell" className="absolute h-24 w-24 top-10 left-10 text-foreground" />
         <StackIcon name="bash" className="absolute h-32 w-32 bottom-20 right-10 text-foreground" />
+        <StackIcon name="ci/cd pipelines" className="absolute h-28 w-28 top-1/2 right-1/2 text-foreground" />
       </div>
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">

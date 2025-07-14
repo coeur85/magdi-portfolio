@@ -10,11 +10,11 @@ export default function Footer() {
             <p className="text-sm text-muted-foreground">&copy; {new Date().getFullYear()} Magdi. All rights reserved.</p>
         </div>
         <div className="flex gap-4">
-          <Link href="#" className="text-muted-foreground hover:text-foreground" prefetch={false}>
+          <Link href="https://github.com/magdi" target="_blank" className="text-muted-foreground hover:text-foreground" prefetch={false}>
             <Github className="h-6 w-6" />
             <span className="sr-only">GitHub</span>
           </Link>
-          <Link href="#" className="text-muted-foreground hover:text-foreground" prefetch={false}>
+          <Link href="https://linkedin.com/in/magdi" target="_blank" className="text-muted-foreground hover:text-foreground" prefetch={false}>
             <Linkedin className="h-6 w-6" />
             <span className="sr-only">LinkedIn</span>
           </Link>

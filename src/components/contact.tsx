@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
-import { Github, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
+import { Github, Linkedin, Mail, MapPin } from 'lucide-react';
 import Link from 'next/link';
 import { StackIcon } from './stack-icon';
 
@@ -23,9 +23,8 @@ type ContactFormValues = z.infer<typeof contactSchema>;
 
 const contactDetails = [
   { icon: <Mail className="h-5 w-5" />, text: 'magdi@example.com', href: 'mailto:magdi@example.com' },
-  { icon: <Phone className="h-5 w-5" />, text: '+1 (123) 456-7890', href: 'tel:+11234567890' },
-  { icon: <Linkedin className="h-5 w-5" />, text: 'linkedin.com/in/magdi', href: '#', target: '_blank' },
-  { icon: <Github className="h-5 w-5" />, text: 'github.com/magdi', href: '#', target: '_blank' },
+  { icon: <Linkedin className="h-5 w-5" />, text: 'linkedin.com/in/magdi', href: 'https://linkedin.com/in/magdi', target: '_blank' },
+  { icon: <Github className="h-5 w-5" />, text: 'github.com/magdi', href: 'https://github.com/magdi', target: '_blank' },
   { icon: <MapPin className="h-5 w-5" />, text: 'San Francisco, CA', href: '#', target: '' },
 ];
 

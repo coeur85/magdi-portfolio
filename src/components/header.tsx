@@ -26,20 +26,27 @@ export default function Header() {
       const sections = navLinks.map(link => document.getElementById(link.href.substring(1)));
       let currentSection = '';
 
-      for (const section of sections) {
-        if (section) {
-          const sectionTop = section.offsetTop - 100; //-100 to make it more accurate
-          const sectionHeight = section.offsetHeight;
-          if (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
-            currentSection = `#${section.id}`;
-            break;
+      const scrollPosition = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.body.offsetHeight;
+
+      // Check if user has scrolled to the bottom of the page
+      if (scrollPosition + windowHeight >= documentHeight - 5) { // -5px buffer
+        currentSection = '#contact';
+      } else {
+        for (const section of sections) {
+          if (section) {
+            const sectionTop = section.offsetTop - 100; //-100 to make it more accurate
+            if (scrollPosition >= sectionTop) {
+              currentSection = `#${section.id}`;
+            }
           }
         }
       }
       setActiveSection(currentSection);
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll(); 
 
     return () => window.removeEventListener('scroll', handleScroll);

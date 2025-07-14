@@ -35,7 +35,7 @@ export default function Header() {
       <div className="container mx-auto flex h-20 items-center justify-between px-4 md:px-6">
         <Link href="/" className="flex items-center gap-2" prefetch={false}>
           <BrainCircuit className="h-7 w-7 text-accent" />
-          <span className="text-xl font-bold font-headline text-foreground">Ahmed Magdi Portfolio</span>
+          <span className="text-xl font-bold font-headline text-foreground">Ahmed Magdi</span>
         </Link>
         <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
           {navLinks.map((link) => (
@@ -63,7 +63,7 @@ export default function Header() {
               <div className="grid gap-4 p-6">
                 <Link href="/" className="flex items-center gap-2 mb-4" prefetch={false} onClick={() => setOpen(false)}>
                   <BrainCircuit className="h-6 w-6 text-accent" />
-                  <span className="text-xl font-bold font-headline">Ahmed Magdi Portfolio</span>
+                  <span className="text-xl font-bold font-headline">Ahmed Magdi</span>
                 </Link>
                 <nav className="grid gap-2">
                   {navLinks.map((link) => (

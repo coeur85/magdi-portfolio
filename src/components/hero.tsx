@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { Download } from 'lucide-react';
+import { Mail } from 'lucide-react';
 import Link from 'next/link';
 import { StackIcon } from './stack-icon';
 
@@ -22,20 +22,17 @@ export default function Hero() {
               <h1 className="font-headline text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none bg-clip-text text-transparent bg-gradient-to-r from-foreground/80 to-foreground">
                 Hi, I'm Ahmed Magdi
               </h1>
-              <h2 className="text-2xl font-medium text-accent font-headline">A Passionate Software & DevOps Engineer</h2>
+              <h2 className="text-2xl font-medium text-accent font-headline">Database Admin & Passionate Software & DevOps Engineer</h2>
               <p className="max-w-[600px] text-muted-foreground md:text-xl">
                 I'm a dedicated developer with expertise in Database Administration, Software Engineering, and DevOps. I love building robust applications and scalable infrastructure. Welcome to my personal space on the web! 👋
               </p>
             </div>
             <div className="flex flex-col gap-4 min-[400px]:flex-row">
               <Button size="lg" asChild>
-                <Link href="#contact">Contact Me</Link>
-              </Button>
-              <Button variant="secondary" size="lg" asChild>
-                <a href="/resume.pdf" download>
-                  <Download className="mr-2 h-4 w-4" />
-                  Download Resume
-                </a>
+                <Link href="#contact">
+                  <Mail className="mr-2 h-4 w-4" />
+                  Contact Me
+                </Link>
               </Button>
             </div>
           </div>

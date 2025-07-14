@@ -1,6 +1,13 @@
 import Link from 'next/link';
 import { Github, Linkedin, Mail, BrainCircuit } from 'lucide-react';
 
+const UpworkIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <path d="M18.12,9.33a5.3,5.3,0,0,0-4.33-4.32,1,1,0,0,0-1.1,1.32,1,1,0,0,0,1.32,1.1,3.31,3.31,0,0,1,2.6,3.34,3.28,3.28,0,0,1-3.28,3.28H12.3v3.66a1,1,0,1,0,2,0V16.39h.44A5.3,5.3,0,0,0,18.12,9.33Zm-7.39,5.44H9.3v3.66a1,1,0,1,0,2,0V13.43a1,1,0,0,0-1-1H9.3a1,1,0,0,0-1,1v.34a1,1,0,1,0,2,0V13.77h.23A3.68,3.68,0,0,0,10.73,8a3.69,3.69,0,0,0-7.38,0,1,1,0,1,0,2,0,1.69,1.69,0,1,1,3.38,0,1,1,0,0,0-1,1v4.77Z"/>
+  </svg>
+);
+
+
 export default function Footer() {
   return (
     <footer className="bg-secondary/20 border-t border-primary/20">
@@ -17,6 +24,10 @@ export default function Footer() {
           <Link href="https://www.linkedin.com/in/ahmedmmagdi/" target="_blank" className="text-muted-foreground hover:text-foreground" prefetch={false}>
             <Linkedin className="h-6 w-6" />
             <span className="sr-only">LinkedIn</span>
+          </Link>
+          <Link href="https://upwork.com/freelancers/magdi" target="_blank" className="text-muted-foreground hover:text-foreground" prefetch={false}>
+            <UpworkIcon className="h-6 w-6" />
+            <span className="sr-only">Upwork</span>
           </Link>
           <Link href="mailto:me@amagdi.dev" className="text-muted-foreground hover:text-foreground" prefetch={false}>
             <Mail className="h-6 w-6" />

@@ -3,7 +3,7 @@ import './globals.css';
 import ClientLayout from './client-layout';
 
 export const metadata: Metadata = {
-  title: 'Ahmed Magdi Portfolio',
+  title: 'Ahmed Magdi',
   description: 'Personal portfolio of Ahmed Magdi, a Software and DevOps Engineer.',
 };
 

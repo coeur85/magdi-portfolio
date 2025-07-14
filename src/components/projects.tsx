@@ -14,7 +14,7 @@ const projectsData = [
     tags: ['Next.js', 'React', '.NET Core', 'SQL Server', 'Azure'],
     liveUrl: '#',
     githubUrl: '#',
-    aiHint: 'dashboard screenshot'
+    aiHint: 'dashboard data'
   },
   {
     title: 'Cloud Orchestrator',
@@ -32,7 +32,7 @@ const projectsData = [
     tags: ['SQL Server', 'Database Migration', 'Query Tuning', 'ETL'],
     liveUrl: null,
     githubUrl: '#',
-    aiHint: 'database schema'
+    aiHint: 'server room'
   },
 ];
 

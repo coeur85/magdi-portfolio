@@ -22,11 +22,11 @@ export default function Skills() {
   return (
     <section id="skills" className="relative w-full overflow-hidden py-20 md:py-32 bg-secondary/20">
        <div className="absolute inset-0 z-0 opacity-[0.03]">
-        <StackIcon name="sql server" className="absolute h-24 w-24 top-20 left-10 text-foreground" />
-        <StackIcon name="docker" className="absolute h-32 w-32 bottom-20 right-10 text-foreground" />
-        <StackIcon name="kubernetes" className="absolute h-40 w-40 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-foreground" />
-        <StackIcon name="postgresql" className="absolute h-28 w-28 top-1/3 right-1/4 text-foreground" />
-        <StackIcon name="mysql" className="absolute h-36 w-36 bottom-1/4 left-1/4 text-foreground" />
+        <StackIcon name="sql server" className="absolute h-24 w-24 top-20 left-10 text-foreground animate-float" style={{ animationDuration: '5s' }} />
+        <StackIcon name="docker" className="absolute h-32 w-32 bottom-20 right-10 text-foreground animate-float" style={{ animationDuration: '6s', animationDelay: '-1s' }} />
+        <StackIcon name="kubernetes" className="absolute h-40 w-40 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-foreground animate-float" style={{ animationDuration: '4s' }} />
+        <StackIcon name="postgresql" className="absolute h-28 w-28 top-1/3 right-1/4 text-foreground animate-float" style={{ animationDuration: '5.5s', animationDelay: '-2s' }} />
+        <StackIcon name="mysql" className="absolute h-36 w-36 bottom-1/4 left-1/4 text-foreground animate-float" style={{ animationDelay: '-0.5s' }} />
       </div>
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">

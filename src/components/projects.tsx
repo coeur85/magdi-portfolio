@@ -40,11 +40,11 @@ export default function Projects() {
   return (
     <section id="projects" className="relative w-full overflow-hidden py-20 md:py-32 bg-background">
       <div className="absolute inset-0 z-0 opacity-[0.03]">
-        <StackIcon name="git" className="absolute h-24 w-24 top-10 right-10 text-foreground" />
-        <StackIcon name="terraform" className="absolute h-32 w-32 bottom-1/2 left-10 text-foreground" />
-        <StackIcon name="blazor" className="absolute h-40 w-40 bottom-20 right-1/4 text-foreground" />
-        <StackIcon name="typescript" className="absolute h-20 w-20 top-1/2 left-3/4 text-foreground" />
-        <StackIcon name="azure devops" className="absolute h-28 w-28 bottom-10 left-1/2 text-foreground" />
+        <StackIcon name="git" className="absolute h-24 w-24 top-10 right-10 text-foreground animate-float" style={{ animationDuration: '4.5s' }} />
+        <StackIcon name="terraform" className="absolute h-32 w-32 bottom-1/2 left-10 text-foreground animate-float" style={{ animationDelay: '-1.5s' }} />
+        <StackIcon name="blazor" className="absolute h-40 w-40 bottom-20 right-1/4 text-foreground animate-float" style={{ animationDuration: '5.5s' }} />
+        <StackIcon name="typescript" className="absolute h-20 w-20 top-1/2 left-3/4 text-foreground animate-float" style={{ animationDelay: '-0.5s' }} />
+        <StackIcon name="azure devops" className="absolute h-28 w-28 bottom-10 left-1/2 text-foreground animate-float" style={{ animationDuration: '6s', animationDelay: '-2.5s' }} />
       </div>
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">

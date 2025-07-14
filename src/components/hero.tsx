@@ -10,7 +10,7 @@ export default function Hero() {
         <div className="grid gap-10 lg:grid-cols-2 items-center">
           <div className="flex flex-col justify-center space-y-6">
             <div className="space-y-4">
-              <h1 className="font-headline text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
+              <h1 className="font-headline text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none bg-clip-text text-transparent bg-gradient-to-r from-foreground/80 to-foreground">
                 Hi, I'm Magdi
               </h1>
               <h2 className="text-2xl font-medium text-accent font-headline">A Passionate Software & DevOps Engineer</h2>

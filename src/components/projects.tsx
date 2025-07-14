@@ -10,7 +10,7 @@ const projectsData = [
   {
     title: 'MCP (Model Context Protocol)',
     description: 'Engineered a Model Context Protocol (MCP) for Claude 4, enabling it to diagnose complex SQL Server replication issues in a live production environment. The AI-driven solution proved highly effective.',
-    image: 'https://placehold.co/600x400.png',
+    image: 'https://images.unsplash.com/photo-1677756119517-756a188d2d94?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxBbCUyMGNvZGV8ZW58MHx8fHwxNzUyNTEwMjU4fDA&ixlib=rb-4.1.0&q=80&w=1080',
     tags: ['Python', 'SQL Server', 'Docker', '.NET Core'],
     liveUrl: null,
     githubUrl: '#',

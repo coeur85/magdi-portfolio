@@ -1,28 +1,15 @@
 'use client';
 
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
-import { Github, Linkedin, Mail, MapPin, LoaderCircle } from 'lucide-react';
+import { Github, Linkedin, Mail, MapPin } from 'lucide-react';
 import Link from 'next/link';
 import { StackIcon } from './stack-icon';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { useState } from 'react';
-import { processContactMessage, ContactFormInput } from '@/ai/flows/contact-flow';
-
-const contactSchema = z.object({
-  name: z.string().min(2, 'Name is too short'),
-  email: z.string().email('Invalid email address'),
-  message: z.string().min(10, 'Message must be at least 10 characters'),
-});
-
-type ContactFormValues = z.infer<typeof contactSchema>;
 
 const UpworkIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" {...props}>
@@ -47,31 +34,40 @@ const contactDetails = [
 
 export default function Contact() {
   const { toast } = useToast();
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const form = useForm<ContactFormValues>({
-    resolver: zodResolver(contactSchema),
-    defaultValues: { name: '', email: '', message: '' },
-  });
 
-  const onSubmit: SubmitHandler<ContactFormValues> = async (data: ContactFormInput) => {
-    setIsSubmitting(true);
-    try {
-      const result = await processContactMessage(data);
-      toast({
-        title: "Message Sent!",
-        description: `Thanks for reaching out. I've categorized your message as: ${result.category}. I'll get back to you soon.`,
-      });
-      form.reset();
-    } catch (error) {
-      console.error("Error processing contact form:", error);
-      toast({
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    const action = form.action;
+
+    fetch(action, {
+      method: 'POST',
+      body: data,
+      headers: {
+        'Accept': 'application/json'
+      }
+    }).then(response => {
+      if (response.ok) {
+        toast({
+          title: "Message Sent!",
+          description: "Thanks for reaching out. I'll get back to you soon.",
+        });
+        form.reset();
+      } else {
+        toast({
+          title: "Error",
+          description: "Something went wrong. Please try again later.",
+          variant: "destructive",
+        });
+      }
+    }).catch(() => {
+       toast({
         title: "Error",
         description: "Something went wrong. Please try again later.",
         variant: "destructive",
       });
-    } finally {
-      setIsSubmitting(false);
-    }
+    });
   };
 
   return (
@@ -124,35 +120,29 @@ export default function Contact() {
               <CardTitle className="font-headline">Send a Message</CardTitle>
             </CardHeader>
             <CardContent>
-              <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                  <FormField control={form.control} name="name" render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Your Name</FormLabel>
-                      <FormControl><Input placeholder="John Doe" {...field} disabled={isSubmitting} /></FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )} />
-                  <FormField control={form.control} name="email" render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Your Email</FormLabel>
-                      <FormControl><Input placeholder="you@example.com" {...field} disabled={isSubmitting} /></FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )} />
-                  <FormField control={form.control} name="message" render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Your Message</FormLabel>
-                      <FormControl><Textarea placeholder="I'd like to discuss..." {...field} disabled={isSubmitting} /></FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )} />
-                  <Button type="submit" className="w-full sm:w-auto" disabled={isSubmitting}>
-                    {isSubmitting ? <LoaderCircle className="animate-spin" /> : <Mail />}
-                    {isSubmitting ? 'Sending...' : 'Send Message'}
-                  </Button>
-                </form>
-              </Form>
+              <form 
+                action="https://formspree.io/f/YOUR_UNIQUE_ID" // <-- IMPORTANT: Replace with your Formspree ID
+                method="POST"
+                onSubmit={handleSubmit}
+                className="space-y-4"
+              >
+                <div className="space-y-2">
+                  <Label htmlFor="name">Your Name</Label>
+                  <Input id="name" name="name" placeholder="John Doe" required />
+                </div>
+                 <div className="space-y-2">
+                  <Label htmlFor="email">Your Email</Label>
+                  <Input id="email" name="email" type="email" placeholder="you@example.com" required />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="message">Your Message</Label>
+                  <Textarea id="message" name="message" placeholder="I'd like to discuss..." required />
+                </div>
+                <Button type="submit" className="w-full sm:w-auto">
+                  <Mail />
+                  Send Message
+                </Button>
+              </form>
             </CardContent>
           </Card>
         </div>

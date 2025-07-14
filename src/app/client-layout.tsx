@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -21,16 +22,7 @@ export default function ClientLayout({
   }, []);
 
   if (loading) {
-    return (
-      <html lang="en" suppressHydrationWarning>
-        <head>
-          <title>Magdi Portfolio</title>
-        </head>
-        <body className="font-body antialiased">
-          <SplashScreen />
-        </body>
-      </html>
-    );
+    return <SplashScreen />;
   }
 
   return (

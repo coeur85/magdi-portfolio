@@ -25,7 +25,7 @@ export default function SplashScreen() {
         transition={{ duration: 0.6, delay: 0.5, ease: 'easeOut' }}
         className="mt-4 text-2xl font-bold font-headline"
       >
-        Magdi Portfolio
+        Magdi
       </motion.div>
     </motion.div>
   );

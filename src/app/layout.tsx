@@ -3,8 +3,8 @@ import './globals.css';
 import ClientLayout from './client-layout';
 
 export const metadata: Metadata = {
-  title: 'Magdi Portfolio',
-  description: 'Personal portfolio of Magdi, a Software and DevOps Engineer.',
+  title: 'Ahmed Magdi Portfolio',
+  description: 'Personal portfolio of Ahmed Magdi, a Software and DevOps Engineer.',
 };
 
 export default function RootLayout({

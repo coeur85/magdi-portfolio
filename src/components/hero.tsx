@@ -20,7 +20,7 @@ export default function Hero() {
           <div className="flex flex-col justify-center items-center text-center space-y-6">
             <div className="space-y-4">
               <h1 className="font-headline text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none bg-clip-text text-transparent bg-gradient-to-r from-foreground/80 to-foreground">
-                Hi, I'm Magdi
+                Hi, I'm Ahmed Magdi
               </h1>
               <h2 className="text-2xl font-medium text-accent font-headline">A Passionate Software & DevOps Engineer</h2>
               <p className="max-w-[600px] text-muted-foreground md:text-xl">

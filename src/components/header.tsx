@@ -17,12 +17,31 @@ const navLinks = [
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('');
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
+
+      const sections = navLinks.map(link => document.getElementById(link.href.substring(1)));
+      let currentSection = '';
+
+      for (const section of sections) {
+        if (section) {
+          const sectionTop = section.offsetTop - 100; //-100 to make it more accurate
+          const sectionHeight = section.offsetHeight;
+          if (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
+            currentSection = `#${section.id}`;
+            break;
+          }
+        }
+      }
+      setActiveSection(currentSection);
     };
+
     window.addEventListener('scroll', handleScroll);
+    handleScroll(); 
+
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -42,8 +61,11 @@ export default function Header() {
             <Link
               key={link.href}
               href={link.href}
-              className="text-muted-foreground transition-all hover:text-foreground hover:scale-105 active:scale-95"
+              className={`transition-all hover:scale-105 active:scale-95 ${
+                activeSection === link.href ? 'text-accent font-bold' : 'text-muted-foreground hover:text-foreground'
+              }`}
               prefetch={false}
+              onClick={() => setActiveSection(link.href)}
             >
               {link.label}
             </Link>
@@ -70,9 +92,14 @@ export default function Header() {
                     <Link
                       key={link.href}
                       href={link.href}
-                      className="flex w-full items-center py-2 text-lg font-semibold transition-all hover:scale-105 active:scale-95"
+                      className={`flex w-full items-center py-2 text-lg font-semibold transition-all hover:scale-105 active:scale-95 ${
+                        activeSection === link.href ? 'text-accent' : ''
+                      }`}
                       prefetch={false}
-                      onClick={() => setOpen(false)}
+                      onClick={() => {
+                        setActiveSection(link.href);
+                        setOpen(false);
+                      }}
                     >
                       {link.label}
                     </Link>

@@ -12,6 +12,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Github, Linkedin, Mail, MapPin } from 'lucide-react';
 import Link from 'next/link';
 import { StackIcon } from './stack-icon';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 const contactSchema = z.object({
   name: z.string().min(2, 'Name is too short'),
@@ -22,10 +23,9 @@ const contactSchema = z.object({
 type ContactFormValues = z.infer<typeof contactSchema>;
 
 const contactDetails = [
-  { icon: <Mail className="h-5 w-5" />, text: 'me@amagdi.dev', href: 'mailto:me@amagdi.dev' },
-  { icon: <Linkedin className="h-5 w-5" />, text: 'linkedin.com/in/ahmedmmagdi', href: 'https://www.linkedin.com/in/ahmedmmagdi/', target: '_blank' },
-  { icon: <Github className="h-5 w-5" />, text: 'github.com/coeur85', href: 'https://github.com/coeur85', target: '_blank' },
-  { icon: <MapPin className="h-5 w-5" />, text: 'Alexandria, Egypt', href: '#', target: '' },
+  { name: 'Email', icon: <Mail className="h-8 w-8" />, href: 'mailto:me@amagdi.dev', target: '_self' },
+  { name: 'LinkedIn', icon: <Linkedin className="h-8 w-8" />, href: 'https://www.linkedin.com/in/ahmedmmagdi/', target: '_blank' },
+  { name: 'GitHub', icon: <Github className="h-8 w-8" />, href: 'https://github.com/coeur85', target: '_blank' },
 ];
 
 export default function Contact() {
@@ -59,22 +59,35 @@ export default function Contact() {
           </p>
         </div>
         <div className="grid gap-12 lg:grid-cols-2">
-          <div className="space-y-6">
+          <div className="space-y-6 flex flex-col justify-center">
             <h3 className="text-2xl font-bold font-headline">Contact Information</h3>
+            <div className="flex items-center gap-4">
+              <div className="bg-accent/20 text-accent rounded-full p-3">
+                <MapPin className="h-8 w-8" />
+              </div>
+              <p className="text-lg">Alexandria, Egypt</p>
+            </div>
             <p className="text-muted-foreground">
-              You can reach me through the following channels or use the contact form.
+              You can also reach me through the following channels:
             </p>
-            <div className="space-y-4">
-              {contactDetails.map((detail, index) => (
-                <div key={index} className="flex items-center gap-4">
-                  <div className="bg-accent/20 text-accent rounded-full p-3">
-                    {detail.icon}
-                  </div>
-                  <Link href={detail.href} target={detail.target || '_self'} className="text-lg hover:underline" prefetch={false}>
-                    {detail.text}
-                  </Link>
-                </div>
-              ))}
+            <div className="flex items-center gap-4">
+              <TooltipProvider>
+                {contactDetails.map((detail) => (
+                  <Tooltip key={detail.name}>
+                    <TooltipTrigger asChild>
+                      <Link href={detail.href} target={detail.target} prefetch={false}>
+                        <div className="bg-accent/20 text-accent rounded-full p-3 transform transition-transform hover:scale-110">
+                          {detail.icon}
+                        </div>
+                         <span className="sr-only">{detail.name}</span>
+                      </Link>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>{detail.name}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                ))}
+              </TooltipProvider>
             </div>
           </div>
           <Card className="bg-card/50">

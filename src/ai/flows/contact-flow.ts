@@ -9,6 +9,7 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
+import { saveContactSubmission } from '@/services/contact-service';
 
 const ContactFormInputSchema = z.object({
   name: z.string().describe('The name of the person sending the message.'),
@@ -52,9 +53,13 @@ const contactFlow = ai.defineFlow(
   async (input) => {
     const {output} = await prompt(input);
     
-    // In a real application, you would add logic here to send an email,
-    // save to a database, or trigger a notification.
-    console.log('Processed contact form:', { input, output });
+    if (output) {
+      await saveContactSubmission({
+        ...input,
+        ...output,
+        createdAt: new Date(),
+      });
+    }
 
     return output!;
   }

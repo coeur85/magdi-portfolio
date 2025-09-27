@@ -3,8 +3,10 @@ import { Button } from '@/components/ui/button';
 import { Mail } from 'lucide-react';
 import Link from 'next/link';
 import { StackIcon } from './stack-icon';
+import placeholderImages from '@/app/lib/placeholder-images.json';
 
 export default function Hero() {
+  const { hero: heroImage } = placeholderImages;
   return (
     <section id="about" className="relative w-full overflow-hidden py-20 md:py-32 bg-background">
       <div className="absolute inset-0 z-0 opacity-[0.03]">
@@ -16,8 +18,19 @@ export default function Hero() {
       </div>
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <div className="grid gap-10 items-center">
-          <div className="flex flex-col justify-center items-center text-center space-y-6">
+        <div className="grid md:grid-cols-2 gap-10 items-center">
+          <div className="flex justify-center md:justify-end order-1 md:order-2">
+            <Image
+              src={heroImage.src}
+              width={heroImage.width}
+              height={heroImage.height}
+              alt={heroImage.alt}
+              className="rounded-full object-cover w-64 h-64 md:w-80 md:h-80 border-4 border-primary shadow-lg"
+              data-ai-hint={heroImage.aiHint}
+              priority
+            />
+          </div>
+          <div className="flex flex-col justify-center items-center md:items-start text-center md:text-left space-y-6 order-2 md:order-1">
             <div className="space-y-4">
               <h1 className="font-headline text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none bg-clip-text text-transparent bg-gradient-to-r from-foreground/80 to-foreground">
                 Hi, I'm Ahmed Magdi

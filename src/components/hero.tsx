@@ -26,7 +26,7 @@ export default function Hero() {
               height={heroImage.height}
               alt={heroImage.alt}
               className="rounded-full object-cover w-64 h-64 md:w-80 md:h-80 border-4 border-primary shadow-lg"
-              style={{ objectPosition: 'center 20%' }}
+              style={{ objectPosition: 'center 30%' }}
               data-ai-hint={heroImage.aiHint}
               priority
             />

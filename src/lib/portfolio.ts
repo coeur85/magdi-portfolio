@@ -37,7 +37,7 @@ export type Chapter = {
 export const profile = {
   name: 'Ahmed Magdi',
   title: 'Database Admin & Passionate Software & DevOps Engineer',
-  tagline: 'I keep SQL Server fast, recoverable and well monitored, including on Azure.',
+  tagline: 'Keeping SQL Server fast, recoverable and well monitored, including on Azure.',
   photo: '/images/profile.jpeg',
   email: 'me@amagdi.dev',
   linkedin: 'https://www.linkedin.com/in/ahmedmmagdi/',
@@ -50,13 +50,13 @@ export const profile = {
 export const about = {
   headline: 'From troubleshooting to technical ownership.',
   paragraphs: [
-    'I’m a SQL Server DBA. I started in troubleshooting and grew into cloud, data modeling, architecture and reporting to management.',
-    'I lead through technical ownership: I give other teams the evidence they need and stay until the fix is confirmed.',
+    'A SQL Server DBA who started out troubleshooting databases and grew into cloud, data modeling, architecture and reporting to management.',
+    'Most fixes depend on other teams. The work is giving them clear evidence, then staying with the problem until the fix is confirmed.',
   ],
   principles: [
-    { title: 'Evidence first', text: 'I measure and test before I change anything.' },
-    { title: 'Clear requirements', text: 'I pin down what the business needs first.' },
-    { title: 'Collaboration', text: 'I work with developers, network teams and stakeholders.' },
+    { title: 'Evidence first', text: 'Measure and test before changing anything.' },
+    { title: 'Clear requirements', text: 'Know what the business actually needs before designing a fix.' },
+    { title: 'Collaboration', text: 'Work side by side with developers, network teams and stakeholders.' },
     { title: 'Follow-through', text: 'A fix isn’t done until someone confirms it works.' },
   ],
 };
@@ -105,7 +105,7 @@ export const chapters: Chapter[] = [
   {
     id: 'performance',
     eyebrow: 'Performance',
-    headline: 'I make slow queries fast.',
+    headline: 'Slow queries, made fast.',
     sub: 'Backed by workload analysis and side-by-side tests.',
     ai: 'reading query plans and reviewing T-SQL before testing.',
     side: 'left',
@@ -127,7 +127,7 @@ export const chapters: Chapter[] = [
   {
     id: 'cloud',
     eyebrow: 'Cloud',
-    headline: 'I plan, connect and maintain SQL Server on Azure.',
+    headline: 'Taking SQL Server to Azure, and keeping it connected.',
     sub: 'Azure SQL Managed Instance: the database, the network and the platform.',
     ai: 'writing PowerShell and automation, and working through connectivity problems.',
     side: 'right',
@@ -153,7 +153,7 @@ export const chapters: Chapter[] = [
   {
     id: 'resilience',
     eyebrow: 'Resilience',
-    headline: 'I make sure data can be recovered.',
+    headline: 'Making sure data can be recovered.',
     sub: 'Backups, restores, Always On and replication.',
     ai: 'writing and reviewing backup, restore and replication scripts.',
     side: 'left',
@@ -183,7 +183,7 @@ export const chapters: Chapter[] = [
   {
     id: 'observability',
     eyebrow: 'Observability',
-    headline: 'I find out what went wrong, and why.',
+    headline: 'Finding out what went wrong, and why.',
     sub: 'Alerts, monitoring and incident investigations.',
     ai: 'sifting through logs, alerts and incident data to find causes faster.',
     side: 'right',
@@ -209,7 +209,7 @@ export const chapters: Chapter[] = [
   {
     id: 'data',
     eyebrow: 'Data engineering',
-    headline: 'I keep data correct and well modelled.',
+    headline: 'Keeping data correct and well modelled.',
     sub: 'Data models, ETL and integrity changes.',
     ai: 'drafting and reviewing data models, ETL logic and SSIS configuration.',
     side: 'left',
@@ -235,8 +235,8 @@ export const chapters: Chapter[] = [
   {
     id: 'architecture',
     eyebrow: 'Architecture & AI',
-    headline: 'I work beyond the database engine.',
-    sub: 'Integration, access and reporting decisions, with AI in every part of my work.',
+    headline: 'Beyond the database engine.',
+    sub: 'Integration, access and reporting decisions, with AI in every part of the work.',
     aiUses: [
       { label: 'Diagnosis', text: 'Claude + MCP on live SQL Server issues.' },
       { label: 'Code and scripts', text: 'T-SQL, PowerShell, SSIS and automation.' },

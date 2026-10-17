@@ -7,7 +7,7 @@ const ease = [0.22, 1, 0.36, 1] as const;
 
 const steps = [
   { key: 'problem', label: 'Problem' },
-  { key: 'action', label: 'What I did' },
+  { key: 'action', label: 'Approach' },
   { key: 'result', label: 'Result' },
 ] as const;
 
@@ -24,10 +24,10 @@ export default function Cases() {
           >
             <p className="text-sm font-medium uppercase tracking-[0.2em] text-accent">Case studies</p>
             <h2 className="text-gradient mt-5 pb-1 text-5xl font-semibold leading-[1.02] tracking-[-0.04em] sm:text-6xl">
-              How I work through problems.
+              Four problems, start to finish.
             </h2>
             <p className="mt-5 max-w-lg text-lg leading-relaxed text-muted-foreground sm:text-xl">
-              Four examples: the problem, what I did and the result.
+              What went wrong, how it was handled and how it turned out.
             </p>
           </motion.div>
 

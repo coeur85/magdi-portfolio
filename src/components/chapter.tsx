@@ -46,7 +46,7 @@ export default function Chapter({ chapter, index }: { chapter: ChapterData; inde
             >
               <Sparkles className="mt-1 h-4 w-4 shrink-0 text-accent" />
               <span>
-                <span className="font-medium text-accent">How I use AI: </span>
+                <span className="font-medium text-accent">Where AI helps: </span>
                 {chapter.ai}
               </span>
             </motion.p>

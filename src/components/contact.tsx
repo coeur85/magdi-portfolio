@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { socialLinks } from '@/components/social';
+import { profile } from '@/lib/portfolio';
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -23,11 +24,15 @@ export default function Contact() {
       <motion.div style={{ scale, opacity }}>
         <p className="text-sm font-medium uppercase tracking-[0.2em] text-accent">Contact</p>
         <h2 className="mx-auto mt-5 max-w-4xl pb-2 text-[2.6rem] font-semibold sm:text-5xl leading-[1.02] tracking-[-0.045em] md:text-7xl">
-          <span className="text-gradient">Let&apos;s keep your data</span>{' '}
-          <span className="text-gradient-accent">fast, safe and online.</span>
+          <span className="text-gradient">Hiring for your data team?</span>{' '}
+          <span className="text-gradient-accent">Let&apos;s talk.</span>
         </h2>
         <p className="mx-auto mt-6 max-w-xl text-lg text-muted-foreground">
-          Open to new projects, roles and conversations about databases, cloud and the systems around them.
+          I&apos;m open to database administration and data platform roles. Email me at{' '}
+          <a href={`mailto:${profile.email}`} className="text-foreground underline decoration-accent/60 underline-offset-4">
+            {profile.email}
+          </a>{' '}
+          or message me on LinkedIn.
         </p>
       </motion.div>
 

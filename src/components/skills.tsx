@@ -16,9 +16,9 @@ export default function Skills() {
             viewport={{ once: true, margin: '0px 0px -20% 0px' }}
             transition={{ duration: 1.1, ease }}
           >
-            <p className="text-sm font-medium uppercase tracking-[0.2em] text-accent">Toolkit</p>
+            <p className="text-sm font-medium uppercase tracking-[0.2em] text-accent">Skills</p>
             <h2 className="text-gradient mt-5 pb-1 text-5xl font-semibold leading-[1.02] tracking-[-0.04em] sm:text-6xl">
-              What the work runs on.
+              Skills and tools.
             </h2>
             <p className="mt-5 max-w-lg text-lg leading-relaxed text-muted-foreground sm:text-xl">
               The database and cloud stack behind the projects above, plus the software and DevOps tools I build with.

@@ -36,7 +36,22 @@ export default function Chapter({ chapter, index }: { chapter: ChapterData; inde
             <p className="mt-5 max-w-lg text-lg leading-relaxed text-muted-foreground sm:text-xl">{chapter.sub}</p>
           </motion.div>
 
-          {(chapter.ai || chapter.aiUses) && (
+          {chapter.ai && (
+            <motion.p
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '0px 0px -10% 0px' }}
+              transition={{ duration: 0.8, ease }}
+              className="mt-6 flex max-w-lg gap-3 text-[15px] leading-relaxed text-foreground/80"
+            >
+              <Sparkles className="mt-1 h-4 w-4 shrink-0 text-accent" />
+              <span>
+                <span className="font-medium text-accent">How I use AI: </span>
+                {chapter.ai}
+              </span>
+            </motion.p>
+          )}
+          {chapter.aiUses && (
             <motion.div
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -44,31 +59,18 @@ export default function Chapter({ chapter, index }: { chapter: ChapterData; inde
               transition={{ duration: 0.8, ease }}
               className="mt-8 rounded-2xl border border-accent/25 bg-accent/[0.07] px-5 py-4"
             >
-              {chapter.ai && (
-                <p className="flex gap-3 text-[15px] leading-relaxed text-foreground/85">
-                  <Sparkles className="mt-1 h-4 w-4 shrink-0 text-accent" />
-                  <span>
-                    <span className="font-medium text-accent">With AI. </span>
-                    {chapter.ai}
-                  </span>
-                </p>
-              )}
-              {chapter.aiUses && (
-                <>
-                  <p className="flex items-center gap-2 text-sm font-medium uppercase tracking-[0.15em] text-accent">
-                    <Sparkles className="h-4 w-4" />
-                    AI in every part
-                  </p>
-                  <dl className="mt-4 grid gap-x-6 gap-y-4 sm:grid-cols-2">
-                    {chapter.aiUses.map((use) => (
-                      <div key={use.label}>
-                        <dt className="font-medium text-foreground">{use.label}</dt>
-                        <dd className="mt-1 text-[15px] leading-relaxed text-muted-foreground">{use.text}</dd>
-                      </div>
-                    ))}
-                  </dl>
-                </>
-              )}
+              <p className="flex items-center gap-2 text-sm font-medium uppercase tracking-[0.15em] text-accent">
+                <Sparkles className="h-4 w-4" />
+                AI in every part
+              </p>
+              <dl className="mt-4 grid gap-x-6 gap-y-4 sm:grid-cols-2">
+                {chapter.aiUses.map((use) => (
+                  <div key={use.label}>
+                    <dt className="font-medium text-foreground">{use.label}</dt>
+                    <dd className="mt-1 text-[15px] leading-relaxed text-muted-foreground">{use.text}</dd>
+                  </div>
+                ))}
+              </dl>
             </motion.div>
           )}
 

@@ -10,7 +10,8 @@ import { Logo } from '@/components/logo';
 
 const navLinks = [
   { href: '#about', label: 'About' },
-  { href: '#work', label: 'Work' },
+  { href: '#cases', label: 'Case studies' },
+  { href: '#work', label: 'Expertise' },
   { href: '#skills', label: 'Skills' },
   { href: '#contact', label: 'Contact' },
 ];
@@ -51,7 +52,7 @@ export default function Header() {
       }`}
     >
       <div className="container mx-auto flex h-14 items-center justify-between px-4 md:px-6">
-        <Link href="#about" className="flex items-center gap-2.5 text-foreground" prefetch={false}>
+        <Link href="#top" className="flex items-center gap-2.5 text-foreground" prefetch={false}>
           <Logo blink className="h-4 w-10" />
           <span className="text-[15px] font-semibold tracking-tight">Ahmed Magdi</span>
         </Link>

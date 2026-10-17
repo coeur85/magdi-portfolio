@@ -4,6 +4,8 @@
 
 export type SceneId =
   | 'intro'
+  | 'about'
+  | 'cases'
   | 'performance'
   | 'cloud'
   | 'resilience'
@@ -35,14 +37,74 @@ export type Chapter = {
 export const profile = {
   name: 'Ahmed Magdi',
   title: 'Database Admin & Passionate Software & DevOps Engineer',
-  tagline: 'I keep data fast, safe and online, from the query plan to the cloud network.',
+  tagline:
+    'I look after SQL Server databases: performance, Azure, backups and high availability, monitoring and data engineering.',
+  photo: '/images/profile.jpeg',
+  email: 'me@amagdi.dev',
+  linkedin: 'https://www.linkedin.com/in/ahmedmmagdi/',
 };
+
+// Written from the portfolio guide's career summary. It claims technical leadership,
+// not people management, because that is what the record supports.
+export const about = {
+  headline: 'From troubleshooting to technical ownership.',
+  paragraphs: [
+    'I’m a SQL Server database administrator. My work started with troubleshooting databases and has grown into cloud operations, data-model decisions, integration architecture and reporting to management.',
+    'I lead through technical ownership. Much of what I fix depends on other teams, so I bring them the evidence and clear requirements they need to act, and I stay with the problem until the fix is confirmed.',
+  ],
+  principles: [
+    { title: 'Evidence first', text: 'I measure and test before I change anything.' },
+    { title: 'Clear requirements', text: 'I pin down what the business needs before I design a fix.' },
+    { title: 'Collaboration', text: 'I work with developers, network teams and stakeholders to get changes made.' },
+    { title: 'Follow-through', text: 'A fix isn’t done until someone confirms it works.' },
+  ],
+};
+
+export type CaseStudy = {
+  area: string;
+  title: string;
+  problem: string;
+  action: string;
+  result: string;
+};
+
+// The four projects with the strongest evidence in the portfolio guide.
+export const caseStudies: CaseStudy[] = [
+  {
+    area: 'Data integrity',
+    title: 'Deleting customers without losing history',
+    problem: 'Customers had to be deleted, and restored if needed, without breaking the order history that referenced them.',
+    action: 'Met with the stakeholders and agreed to keep order lines and set their customer references to NULL, then changed the schema and stored procedures to match.',
+    result: 'A documented, agreed approach, with specific checks that restoration works.',
+  },
+  {
+    area: 'Performance',
+    title: 'A faster customer-lookup API',
+    problem: 'A customer-lookup API was slow.',
+    action: 'Analysed the workload behind it, rewrote the stored procedure, added a supporting index, and compared the old and new versions side by side.',
+    result: 'The new version was measurably faster in testing.',
+  },
+  {
+    area: 'Cloud',
+    title: 'Restoring Managed Instance connectivity',
+    problem: 'Connections to an Azure SQL Managed Instance were failing.',
+    action: 'Traced the failure to network routing and gave the network team the connection details and the route change it depended on.',
+    result: 'The network team made the change and confirmed that connectivity was restored.',
+  },
+  {
+    area: 'Monitoring',
+    title: 'Alerting on failed automation',
+    problem: 'Failures in Azure Automation runs needed to reach the team.',
+    action: 'Built and tested an alert, confirmed the email arrived, then adjusted the configuration when it sent repeated notifications.',
+    result: 'A working alert that reports failures without the repeat noise.',
+  },
+];
 
 export const chapters: Chapter[] = [
   {
     id: 'performance',
     eyebrow: 'Performance',
-    headline: 'Faster. Measured, not guessed.',
+    headline: 'I make slow queries fast.',
     sub: 'Query and schema work grounded in workload analysis and side-by-side tests.',
     ai: 'I use AI to read query plans and workload data faster, and to review rewritten T-SQL before I test it.',
     side: 'left',
@@ -65,7 +127,7 @@ export const chapters: Chapter[] = [
   {
     id: 'cloud',
     eyebrow: 'Cloud',
-    headline: 'Into the cloud. Connected end to end.',
+    headline: 'I plan, connect and maintain SQL Server on Azure.',
     sub: 'Azure SQL Managed Instance work that spans the database, the network and the platform around it.',
     ai: 'I use AI to write and review the PowerShell and automation behind cloud changes, and to work through connectivity problems step by step.',
     side: 'right',
@@ -92,7 +154,7 @@ export const chapters: Chapter[] = [
   {
     id: 'resilience',
     eyebrow: 'Resilience',
-    headline: 'Built to recover.',
+    headline: 'I make sure data can be recovered.',
     sub: 'Backups, restores, Always On and replication, so the data survives the bad day.',
     ai: 'I use AI to write and review backup, restore and replication scripts.',
     side: 'left',
@@ -122,7 +184,7 @@ export const chapters: Chapter[] = [
   {
     id: 'observability',
     eyebrow: 'Observability',
-    headline: 'Nothing fails quietly.',
+    headline: 'I find out what went wrong, and why.',
     sub: 'Alerts, monitoring and incident work that turn symptoms into answers.',
     ai: 'I use AI to sift through logs, alerts and incident data to get from symptom to cause faster.',
     side: 'right',
@@ -150,7 +212,7 @@ export const chapters: Chapter[] = [
   {
     id: 'data',
     eyebrow: 'Data engineering',
-    headline: 'Every row accounted for.',
+    headline: 'I keep data correct and well modelled.',
     sub: 'Data models, ETL and integrity changes, agreed with the people who depend on them.',
     ai: 'I use AI to draft and review data models, ETL logic and SSIS configuration.',
     side: 'left',
@@ -177,7 +239,7 @@ export const chapters: Chapter[] = [
   {
     id: 'architecture',
     eyebrow: 'Architecture & AI',
-    headline: 'Beyond the engine.',
+    headline: 'I work beyond the database engine.',
     sub: 'Integration, access and reporting decisions that connect database work to how the business runs, with AI in every part of the work.',
     aiUses: [
       { label: 'Diagnosis', text: 'Claude connected to SQL Server through MCP to diagnose live issues.' },

@@ -52,6 +52,8 @@ const BASE: Pose = {
 
 const POSES: Record<SceneId, Pose> = {
   intro: { ...BASE, x: 0.42, y: -0.04, ry: 0.5 },
+  about: { ...BASE, x: 0.44, scale: 0.85, rx: 0.4, ry: 1.3, spread: 0.25, glow: 0.9 },
+  cases: { ...BASE, x: -0.42, scale: 0.8, rx: 0.35, ry: 2, flow: 1.2, glow: 1.05 },
   performance: { ...BASE, x: 0.44, rx: 0.22, ry: 2.8, flow: 2.4, glow: 1.3, pulse: 'helix' },
   cloud: { ...BASE, x: -0.42, scale: 0.78, rx: 0.42, ry: 3.6, network: 1, pulse: 'route' },
   resilience: { ...BASE, x: 0.3, scale: 0.78, ry: 4.4, replica: 1, pulse: 'shuttle' },
@@ -65,8 +67,9 @@ const POSES: Record<SceneId, Pose> = {
 // On portrait screens the core stays centred above the text instead of beside it.
 function adapt(pose: Pose, id: SceneId, portrait: boolean): Pose {
   if (!portrait) return pose;
-  const y = id === 'contact' ? -0.17 : id === 'intro' ? 0.4 : id === 'architecture' ? 0.06 : 0.22;
-  return { ...pose, x: -0.3 * pose.replica, y, scale: pose.scale * (id === 'contact' ? 0.45 : 0.6) };
+  const y = id === 'contact' ? -0.12 : id === 'intro' ? 0.5 : id === 'architecture' ? 0.06 : 0.22;
+  const scale = id === 'contact' ? 0.45 : id === 'intro' ? 0.5 : 0.6;
+  return { ...pose, x: -0.3 * pose.replica, y, scale: pose.scale * scale };
 }
 
 type Section = { id: SceneId; top: number; bottom: number };

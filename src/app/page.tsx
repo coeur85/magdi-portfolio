@@ -1,6 +1,5 @@
 import Header from '@/components/header';
 import Intro from '@/components/intro';
-import Manifesto from '@/components/manifesto';
 import Work from '@/components/work';
 import Skills from '@/components/skills';
 import Contact from '@/components/contact';
@@ -14,7 +13,6 @@ export default function Home() {
       <Header />
       <main className="relative z-10">
         <Intro />
-        <Manifesto />
         <Work />
         <Skills />
         {/* Contact and footer share the last screen so the contact heading clears the header. */}

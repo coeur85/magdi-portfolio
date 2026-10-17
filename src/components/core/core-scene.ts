@@ -52,7 +52,6 @@ const BASE: Pose = {
 
 const POSES: Record<SceneId, Pose> = {
   intro: { ...BASE, x: 0.42, y: -0.04, ry: 0.5 },
-  manifesto: { ...BASE, z: -4, scale: 1.25, rx: 0.55, ry: 1.7, spread: 0.2, glow: 0.55 },
   performance: { ...BASE, x: 0.44, rx: 0.22, ry: 2.8, flow: 2.4, glow: 1.3, pulse: 'helix' },
   cloud: { ...BASE, x: -0.42, scale: 0.78, rx: 0.42, ry: 3.6, network: 1, pulse: 'route' },
   resilience: { ...BASE, x: 0.3, scale: 0.78, ry: 4.4, replica: 1, pulse: 'shuttle' },
@@ -66,7 +65,7 @@ const POSES: Record<SceneId, Pose> = {
 // On portrait screens the core stays centred above the text instead of beside it.
 function adapt(pose: Pose, id: SceneId, portrait: boolean): Pose {
   if (!portrait) return pose;
-  const y = id === 'manifesto' ? 0 : id === 'contact' ? -0.17 : id === 'intro' ? 0.4 : 0.22;
+  const y = id === 'contact' ? -0.17 : id === 'intro' ? 0.4 : 0.22;
   return { ...pose, x: -0.3 * pose.replica, y, scale: pose.scale * (id === 'contact' ? 0.45 : 0.6) };
 }
 

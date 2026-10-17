@@ -4,7 +4,6 @@
 
 export type SceneId =
   | 'intro'
-  | 'manifesto'
   | 'performance'
   | 'cloud'
   | 'resilience'
@@ -33,8 +32,6 @@ export const profile = {
   name: 'Ahmed Magdi',
   title: 'Database Admin & Passionate Software & DevOps Engineer',
   tagline: 'I keep data fast, safe and online, from the query plan to the cloud network.',
-  manifesto:
-    'I take ownership of the data layer through evidence, clear requirements, collaboration and follow-through.',
 };
 
 export const chapters: Chapter[] = [

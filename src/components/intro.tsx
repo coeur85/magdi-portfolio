@@ -37,7 +37,7 @@ export default function Intro() {
               className="h-16 w-16 rounded-full object-cover ring-2 ring-accent/60 ring-offset-2 ring-offset-black sm:h-20 sm:w-20"
               style={{ objectPosition: 'center 30%' }}
             />
-            <span className="text-sm font-medium uppercase tracking-[0.2em] text-accent">Hi, I&apos;m</span>
+            <span className="text-sm font-semibold uppercase tracking-[0.2em] text-foreground">Hi, I&apos;m</span>
           </motion.div>
           <h1 className="pb-2 text-6xl font-semibold leading-[0.95] tracking-[-0.045em] sm:text-7xl lg:text-8xl">
             {profile.name.split(' ').map((word, i) => (

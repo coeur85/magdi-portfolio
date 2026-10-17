@@ -24,7 +24,7 @@ const NODE_COUNT = 6;
 const TRAIL = 56;
 const REPLICA_OFFSET = new THREE.Vector3(2.1, 0.35, -2.6);
 
-type PulseMode = 'orbit' | 'helix' | 'route' | 'shuttle' | 'scan' | 'weave';
+type PulseMode = 'orbit' | 'helix' | 'route' | 'shuttle' | 'scan' | 'weave' | 'neural';
 
 type Pose = {
   x: number; // fraction of half the viewport width
@@ -36,18 +36,18 @@ type Pose = {
   spread: number; // exploded view, 0..1
   replica: number; // replica slide-out, 0..1
   network: number; // routes drawn out to nodes, 0..1
-  layout: number; // 0 = cloud services ring, 1 = external systems
+  ai: number; // neural network above the core, 0..1
   scan: number; // scanning ring, 0..1
   flow: number; // data band speed
   glow: number;
   pulse: PulseMode;
 };
 
-const NUMERIC = ['x', 'y', 'z', 'scale', 'rx', 'ry', 'spread', 'replica', 'network', 'layout', 'scan', 'flow', 'glow'] as const;
+const NUMERIC = ['x', 'y', 'z', 'scale', 'rx', 'ry', 'spread', 'replica', 'network', 'ai', 'scan', 'flow', 'glow'] as const;
 
 const BASE: Pose = {
   x: 0, y: 0, z: 0, scale: 1, rx: 0.32, ry: 0, spread: 0, replica: 0,
-  network: 0, layout: 0, scan: 0, flow: 0.4, glow: 1, pulse: 'orbit',
+  network: 0, ai: 0, scan: 0, flow: 0.4, glow: 1, pulse: 'orbit',
 };
 
 const POSES: Record<SceneId, Pose> = {
@@ -57,7 +57,7 @@ const POSES: Record<SceneId, Pose> = {
   resilience: { ...BASE, x: 0.3, scale: 0.78, ry: 4.4, replica: 1, pulse: 'shuttle' },
   observability: { ...BASE, x: -0.44, rx: 0.26, ry: 5.2, scan: 1, glow: 1.1, pulse: 'scan' },
   data: { ...BASE, x: 0.44, scale: 0.86, rx: 0.5, ry: 5.9, spread: 1, pulse: 'weave' },
-  architecture: { ...BASE, x: -0.42, scale: 0.72, rx: 0.4, ry: 6.7, network: 1, layout: 1, pulse: 'route' },
+  architecture: { ...BASE, x: -0.42, y: -0.14, scale: 0.72, rx: 0.3, ry: 6.7, ai: 1, glow: 1.1, pulse: 'neural' },
   skills: { ...BASE, x: 0.52, y: 0.08, z: -1, scale: 0.7, rx: 0.4, ry: 7.6, spread: 0.45, glow: 0.8 },
   contact: { ...BASE, y: -0.1, scale: 0.78, rx: 0.3, ry: 8.6, glow: 1.2 },
 };
@@ -65,7 +65,7 @@ const POSES: Record<SceneId, Pose> = {
 // On portrait screens the core stays centred above the text instead of beside it.
 function adapt(pose: Pose, id: SceneId, portrait: boolean): Pose {
   if (!portrait) return pose;
-  const y = id === 'contact' ? -0.17 : id === 'intro' ? 0.4 : 0.22;
+  const y = id === 'contact' ? -0.17 : id === 'intro' ? 0.4 : id === 'architecture' ? 0.06 : 0.22;
   return { ...pose, x: -0.3 * pose.replica, y, scale: pose.scale * (id === 'contact' ? 0.45 : 0.6) };
 }
 
@@ -308,25 +308,15 @@ export function createCoreScene(canvas: HTMLCanvasElement): () => void {
   root.add(replica.group);
 
   // Network routes from the core out to surrounding nodes.
-  const layouts = [
-    Array.from({ length: NODE_COUNT }, (_, i) => {
-      const a = (i / NODE_COUNT) * Math.PI * 2 + 0.3;
-      return new THREE.Vector3(Math.cos(a) * 3.5, i % 2 ? 0.7 : -0.5, Math.sin(a) * 3.5);
-    }),
-    [
-      new THREE.Vector3(-4.4, 1.1, 0.6),
-      new THREE.Vector3(4.2, -0.4, 1.2),
-      new THREE.Vector3(0.6, 2.4, -3.6),
-      new THREE.Vector3(-1.8, -2.2, -3),
-      new THREE.Vector3(2.6, 1.8, -2.8),
-      new THREE.Vector3(-3, -1, 2.8),
-    ],
-  ];
+  const layout = Array.from({ length: NODE_COUNT }, (_, i) => {
+    const a = (i / NODE_COUNT) * Math.PI * 2 + 0.3;
+    return new THREE.Vector3(Math.cos(a) * 3.5, i % 2 ? 0.7 : -0.5, Math.sin(a) * 3.5);
+  });
   const network = new THREE.Group();
   spinner.add(network);
   const nodeMaterial = new THREE.MeshBasicMaterial({ color: ACCENT.clone().multiplyScalar(4), toneMapped: false });
   const nodeGeometry = new THREE.SphereGeometry(0.07, 16, 16);
-  const nodes = layouts[0].map(() => {
+  const nodes = layout.map((position) => {
     const node = new THREE.Group();
     node.add(new THREE.Mesh(nodeGeometry, nodeMaterial));
     const nodeHalo = new THREE.Sprite(
@@ -340,7 +330,7 @@ export function createCoreScene(canvas: HTMLCanvasElement): () => void {
     });
     const line = new THREE.Line(geometry, lineMaterial);
     network.add(node, line);
-    return { node, line, target: new THREE.Vector3() };
+    return { node, line, target: position };
   });
 
   // Scanning ring for the observability chapter.
@@ -354,6 +344,80 @@ export function createCoreScene(canvas: HTMLCanvasElement): () => void {
   scanDisc.rotation.x = -Math.PI / 2;
   scan.add(scanRing, scanDisc);
   spinner.add(scan);
+
+  // Neural network for the AI chapter: rings of nodes above the core, wired layer to
+  // layer and then into the top of the stack, with signals firing down through it.
+  const neural = new THREE.Group();
+  spinner.add(neural);
+  const neuralRandom = mulberry32(5);
+  const coreInput = new THREE.Vector3(0, H + GAP + H / 2 + 0.02, 0);
+  const neurons: { position: THREE.Vector3; layer: number; next: number[] }[] = [];
+  [
+    { count: 11, radius: 2.7, y: 3.5 },
+    { count: 8, radius: 2.05, y: 2.75 },
+    { count: 6, radius: 1.35, y: 2.0 },
+  ].forEach(({ count, radius, y }, layer) => {
+    for (let k = 0; k < count; k++) {
+      const angle = (k / count) * Math.PI * 2 + layer * 0.37;
+      neurons.push({
+        position: new THREE.Vector3(Math.cos(angle) * radius, y + (k % 2 ? 0.08 : -0.08), Math.sin(angle) * radius),
+        layer,
+        next: [],
+      });
+    }
+  });
+  // Each neuron feeds the two nearest neurons (by angle) in the layer below; the last layer feeds the core.
+  const angleBetween = (p: THREE.Vector3, q: THREE.Vector3) => {
+    const d = Math.abs(Math.atan2(p.z, p.x) - Math.atan2(q.z, q.x)) % (Math.PI * 2);
+    return Math.min(d, Math.PI * 2 - d);
+  };
+  for (const neuron of neurons) {
+    const below = neurons.map((n, i) => ({ n, i })).filter(({ n }) => n.layer === neuron.layer + 1);
+    neuron.next = below.length
+      ? below.sort((p, q) => angleBetween(p.n.position, neuron.position) - angleBetween(q.n.position, neuron.position)).slice(0, 2).map(({ i }) => i)
+      : [-1];
+  }
+  const neuralTarget = (index: number) => (index < 0 ? coreInput : neurons[index].position);
+  const edgePositions: number[] = [];
+  for (const neuron of neurons) {
+    for (const j of neuron.next) edgePositions.push(...neuron.position.toArray(), ...neuralTarget(j).toArray());
+  }
+  const edgeGeometry = new THREE.BufferGeometry();
+  edgeGeometry.setAttribute('position', new THREE.Float32BufferAttribute(edgePositions, 3));
+  const edgeMaterial = new THREE.LineBasicMaterial({
+    color: new THREE.Color(), transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false,
+  });
+  neural.add(new THREE.LineSegments(edgeGeometry, edgeMaterial));
+
+  const neuronColors = new Float32Array(neurons.length * 3);
+  const neuronFlash = new Float32Array(neurons.length);
+  const neuronGeometry = new THREE.BufferGeometry().setFromPoints(neurons.map((n) => n.position));
+  neuronGeometry.setAttribute('color', new THREE.BufferAttribute(neuronColors, 3));
+  const neuronPoints = new THREE.Points(
+    neuronGeometry,
+    new THREE.PointsMaterial({
+      size: 0.34, map: glowMap, vertexColors: true, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false,
+    }),
+  );
+  neuronPoints.frustumCulled = false;
+  neural.add(neuronPoints);
+
+  const inputCount = neurons.filter((n) => n.layer === 0).length;
+  const pick = (options: number[]) => options[Math.floor(neuralRandom() * options.length)];
+  const signals = Array.from({ length: 14 }, () => {
+    const from = Math.floor(neuralRandom() * neurons.length);
+    return { from, to: pick(neurons[from].next), t: neuralRandom(), speed: 0.9 + neuralRandom() * 0.6 };
+  });
+  const signalPositions = new Float32Array(signals.length * 3);
+  const signalGeometry = new THREE.BufferGeometry();
+  signalGeometry.setAttribute('position', new THREE.BufferAttribute(signalPositions, 3));
+  const signalMaterial = new THREE.PointsMaterial({
+    size: 0.2, map: glowMap, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false,
+  });
+  const signalPoints = new THREE.Points(signalGeometry, signalMaterial);
+  signalPoints.frustumCulled = false;
+  neural.add(signalPoints);
+  let coreFlash = 0;
 
   // The data pulse: the second object travelling with the core.
   const pulse = new THREE.Group();
@@ -462,8 +526,7 @@ export function createCoreScene(canvas: HTMLCanvasElement): () => void {
         break;
       }
       case 'route': {
-        const visible = pose.layout > 0.5 ? 3 : NODE_COUNT;
-        const k = Math.floor(t * 0.55) % visible;
+        const k = Math.floor(t * 0.55) % NODE_COUNT;
         const u = Math.sin(((t * 0.55) % 1) * Math.PI);
         out.copy(nodes[k].target).multiplyScalar(u);
         break;
@@ -482,6 +545,14 @@ export function createCoreScene(canvas: HTMLCanvasElement): () => void {
       case 'weave': {
         const angle = t * 1.6;
         out.set(Math.cos(angle) * (R + 0.35), Math.sin(angle * 0.5) * stackHalf, Math.sin(angle) * (R + 0.35));
+        break;
+      }
+      case 'neural': {
+        // Spirals down through the neural layers into the core and back up.
+        const u = 0.5 - 0.5 * Math.cos(t * 0.8);
+        const radius = THREE.MathUtils.lerp(2.7, 0.25, u);
+        const angle = t * 1.4;
+        out.set(Math.cos(angle) * radius, THREE.MathUtils.lerp(3.5, coreInput.y, u), Math.sin(angle) * radius);
         break;
       }
     }
@@ -520,8 +591,43 @@ export function createCoreScene(canvas: HTMLCanvasElement): () => void {
     spinner.rotation.set(pose.rx, pose.ry + elapsed * 0.15, 0);
 
     const glow = pose.glow * appear;
+
+    // Signals hop neuron to neuron down the layers; each one reaching the core makes it flare.
+    const ai = pose.ai;
+    neural.visible = ai > 0.005;
+    coreFlash *= Math.exp(-dt * 3);
+    if (neural.visible) {
+      neural.position.y = (1 - ai) * -0.6;
+      edgeMaterial.color.copy(ACCENT).multiplyScalar(0.55 * ai);
+      signalMaterial.color.copy(PULSE).multiplyScalar(2.4 * ai);
+      signals.forEach((signal, i) => {
+        signal.t += dt * signal.speed * (reducedMotion ? 0.3 : 1);
+        if (signal.t >= 1) {
+          if (signal.to < 0) {
+            coreFlash = 1;
+            signal.from = Math.floor(neuralRandom() * inputCount);
+          } else {
+            neuronFlash[signal.to] = 1;
+            signal.from = signal.to;
+          }
+          signal.to = pick(neurons[signal.from].next);
+          signal.t = 0;
+        }
+        v.lerpVectors(neurons[signal.from].position, neuralTarget(signal.to), signal.t);
+        signalPositions.set([v.x, v.y, v.z], i * 3);
+      });
+      signalGeometry.attributes.position.needsUpdate = true;
+      neurons.forEach((_, i) => {
+        neuronFlash[i] *= Math.exp(-dt * 3.5);
+        const base = 0.9 * ai;
+        const flash = neuronFlash[i] * 2.2 * ai;
+        neuronColors.set([ACCENT.r * base + PULSE.r * flash, ACCENT.g * base + PULSE.g * flash, ACCENT.b * base + PULSE.b * flash], i * 3);
+      });
+      neuronGeometry.attributes.color.needsUpdate = true;
+    }
+
     core.setSpread(pose.spread);
-    core.setLook(glow);
+    core.setLook(glow * (1 + 0.4 * coreFlash * ai));
     core.flow(dt, pose.flow);
     halo.material.opacity = 0.16 * glow;
     const stackHalf = H + GAP + pose.spread * SPREAD + H / 2;
@@ -539,9 +645,7 @@ export function createCoreScene(canvas: HTMLCanvasElement): () => void {
 
     network.visible = pose.network > 0.005;
     nodes.forEach(({ node, line, target: nodeTarget }, i) => {
-      nodeTarget.lerpVectors(layouts[0][i], layouts[1][i], pose.layout);
-      const alive = THREE.MathUtils.lerp(1, i < 3 ? 1 : 0, pose.layout);
-      const drawn = THREE.MathUtils.clamp(pose.network * 1.8 - i * 0.13, 0, 1) * alive;
+      const drawn = THREE.MathUtils.clamp(pose.network * 1.8 - i * 0.13, 0, 1);
       v.copy(nodeTarget).multiplyScalar(drawn);
       const positions = line.geometry.attributes.position as THREE.BufferAttribute;
       positions.setXYZ(1, v.x, v.y, v.z);

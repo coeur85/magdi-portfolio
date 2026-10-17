@@ -23,6 +23,10 @@ export type Chapter = {
   eyebrow: string;
   headline: string;
   sub: string;
+  // How AI fits into this kind of work, in one sentence.
+  ai?: string;
+  // The ways AI is used across all of the work; shown as a summary in one chapter.
+  aiUses?: { label: string; text: string }[];
   // Which side of the screen the text sits on; the core takes the other side.
   side: 'left' | 'right';
   projects: Project[];
@@ -40,6 +44,7 @@ export const chapters: Chapter[] = [
     eyebrow: 'Performance',
     headline: 'Faster. Measured, not guessed.',
     sub: 'Query and schema work grounded in workload analysis and side-by-side tests.',
+    ai: 'I use AI to read query plans and workload data faster, and to review rewritten T-SQL before I test it.',
     side: 'left',
     projects: [
       {
@@ -62,6 +67,7 @@ export const chapters: Chapter[] = [
     eyebrow: 'Cloud',
     headline: 'Into the cloud. Connected end to end.',
     sub: 'Azure SQL Managed Instance work that spans the database, the network and the platform around it.',
+    ai: 'I use AI to write and review the PowerShell and automation behind cloud changes, and to work through connectivity problems step by step.',
     side: 'right',
     projects: [
       {
@@ -88,6 +94,7 @@ export const chapters: Chapter[] = [
     eyebrow: 'Resilience',
     headline: 'Built to recover.',
     sub: 'Backups, restores, Always On and replication, so the data survives the bad day.',
+    ai: 'I use AI to write and review backup, restore and replication scripts.',
     side: 'left',
     projects: [
       {
@@ -117,6 +124,7 @@ export const chapters: Chapter[] = [
     eyebrow: 'Observability',
     headline: 'Nothing fails quietly.',
     sub: 'Alerts, monitoring and incident work that turn symptoms into answers.',
+    ai: 'I use AI to sift through logs, alerts and incident data to get from symptom to cause faster.',
     side: 'right',
     projects: [
       {
@@ -144,6 +152,7 @@ export const chapters: Chapter[] = [
     eyebrow: 'Data engineering',
     headline: 'Every row accounted for.',
     sub: 'Data models, ETL and integrity changes, agreed with the people who depend on them.',
+    ai: 'I use AI to draft and review data models, ETL logic and SSIS configuration.',
     side: 'left',
     projects: [
       {
@@ -167,11 +176,22 @@ export const chapters: Chapter[] = [
   },
   {
     id: 'architecture',
-    eyebrow: 'Architecture',
+    eyebrow: 'Architecture & AI',
     headline: 'Beyond the engine.',
-    sub: 'Integration, access and reporting decisions that connect database work to how the business runs.',
+    sub: 'Integration, access and reporting decisions that connect database work to how the business runs, with AI in every part of the work.',
+    aiUses: [
+      { label: 'Diagnosis', text: 'Claude connected to SQL Server through MCP to diagnose live issues.' },
+      { label: 'Code and scripts', text: 'T-SQL, PowerShell, SSIS and automation, written and reviewed with AI.' },
+      { label: 'Analysis', text: 'Query plans, workloads, logs and incidents, read faster with AI.' },
+      { label: 'Docs and reports', text: 'Design comparisons, documentation and stakeholder reports, drafted with AI.' },
+    ],
     side: 'right',
     projects: [
+      {
+        title: 'Claude + MCP for SQL Server',
+        summary:
+          'Built a Model Context Protocol (MCP) server that lets Claude diagnose SQL Server replication issues in a live production environment.',
+      },
       {
         title: 'Third-party integration',
         summary: 'Compared architecture options for integrating a third-party system.',

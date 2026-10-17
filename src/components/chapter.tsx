@@ -2,6 +2,7 @@
 
 import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import { Sparkles } from 'lucide-react';
 import type { Chapter as ChapterData } from '@/lib/portfolio';
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -35,7 +36,43 @@ export default function Chapter({ chapter, index }: { chapter: ChapterData; inde
             <p className="mt-5 max-w-lg text-lg leading-relaxed text-muted-foreground sm:text-xl">{chapter.sub}</p>
           </motion.div>
 
-          <ul className="mt-14">
+          {(chapter.ai || chapter.aiUses) && (
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '0px 0px -10% 0px' }}
+              transition={{ duration: 0.8, ease }}
+              className="mt-8 rounded-2xl border border-accent/25 bg-accent/[0.07] px-5 py-4"
+            >
+              {chapter.ai && (
+                <p className="flex gap-3 text-[15px] leading-relaxed text-foreground/85">
+                  <Sparkles className="mt-1 h-4 w-4 shrink-0 text-accent" />
+                  <span>
+                    <span className="font-medium text-accent">With AI. </span>
+                    {chapter.ai}
+                  </span>
+                </p>
+              )}
+              {chapter.aiUses && (
+                <>
+                  <p className="flex items-center gap-2 text-sm font-medium uppercase tracking-[0.15em] text-accent">
+                    <Sparkles className="h-4 w-4" />
+                    AI in every part
+                  </p>
+                  <dl className="mt-4 grid gap-x-6 gap-y-4 sm:grid-cols-2">
+                    {chapter.aiUses.map((use) => (
+                      <div key={use.label}>
+                        <dt className="font-medium text-foreground">{use.label}</dt>
+                        <dd className="mt-1 text-[15px] leading-relaxed text-muted-foreground">{use.text}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                </>
+              )}
+            </motion.div>
+          )}
+
+          <ul className="mt-10">
             {chapter.projects.map((project, i) => (
               <motion.li
                 key={project.title}

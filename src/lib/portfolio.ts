@@ -36,7 +36,7 @@ export type Chapter = {
 
 export const profile = {
   name: 'Ahmed Magdi',
-  title: 'Database Admin & Passionate Software & DevOps Engineer',
+  title: 'Database Administrator & Passionate Software & DevOps Engineer',
   tagline: 'Keeping SQL Server fast, recoverable and well monitored, including on Azure.',
   photo: '/images/profile.jpeg',
   email: 'me@amagdi.dev',

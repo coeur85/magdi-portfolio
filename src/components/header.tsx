@@ -52,7 +52,7 @@ export default function Header() {
     >
       <div className="container mx-auto flex h-14 items-center justify-between px-4 md:px-6">
         <Link href="#about" className="flex items-center gap-2.5 text-foreground" prefetch={false}>
-          <Logo className="h-6 w-6" />
+          <Logo blink className="h-4 w-10" />
           <span className="text-[15px] font-semibold tracking-tight">Ahmed Magdi</span>
         </Link>
         <nav className="hidden items-center gap-8 text-[13px] md:flex">
@@ -79,7 +79,7 @@ export default function Header() {
           </SheetTrigger>
           <SheetContent side="right" className="border-border bg-black/90 backdrop-blur-xl">
             <SheetTitle className="flex items-center gap-2.5">
-              <Logo className="h-6 w-6" />
+              <Logo className="h-4 w-10" />
               <span className="text-lg font-semibold tracking-tight">Ahmed Magdi</span>
             </SheetTitle>
             <nav className="mt-10 grid gap-1">

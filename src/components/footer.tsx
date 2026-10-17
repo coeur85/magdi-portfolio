@@ -7,7 +7,7 @@ export default function Footer() {
     <footer className="relative z-10 border-t border-white/10 bg-black">
       <div className="container mx-auto flex flex-col items-center justify-between gap-4 px-4 py-8 md:flex-row md:px-6">
         <div className="flex items-center gap-2.5">
-          <Logo className="h-5 w-5 text-foreground" />
+          <Logo className="h-3.5 w-9 text-foreground" />
           <p className="text-xs text-muted-foreground">&copy; {new Date().getFullYear()} Ahmed Magdi. All rights reserved.</p>
         </div>
         <div className="flex gap-5">

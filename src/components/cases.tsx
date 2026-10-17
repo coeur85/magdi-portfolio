@@ -27,7 +27,7 @@ export default function Cases() {
               How I work through problems.
             </h2>
             <p className="mt-5 max-w-lg text-lg leading-relaxed text-muted-foreground sm:text-xl">
-              Four examples from my work, each with the problem, what I did and the result.
+              Four examples: the problem, what I did and the result.
             </p>
           </motion.div>
 

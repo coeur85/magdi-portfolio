@@ -37,8 +37,7 @@ export type Chapter = {
 export const profile = {
   name: 'Ahmed Magdi',
   title: 'Database Admin & Passionate Software & DevOps Engineer',
-  tagline:
-    'I look after SQL Server databases: performance, Azure, backups and high availability, monitoring and data engineering.',
+  tagline: 'I keep SQL Server fast, recoverable and well monitored, including on Azure.',
   photo: '/images/profile.jpeg',
   email: 'me@amagdi.dev',
   linkedin: 'https://www.linkedin.com/in/ahmedmmagdi/',
@@ -51,13 +50,13 @@ export const profile = {
 export const about = {
   headline: 'From troubleshooting to technical ownership.',
   paragraphs: [
-    'I’m a SQL Server database administrator. My work started with troubleshooting databases and has grown into cloud operations, data-model decisions, integration architecture and reporting to management.',
-    'I lead through technical ownership. Much of what I fix depends on other teams, so I bring them the evidence and clear requirements they need to act, and I stay with the problem until the fix is confirmed.',
+    'I’m a SQL Server DBA. I started in troubleshooting and grew into cloud, data modeling, architecture and reporting to management.',
+    'I lead through technical ownership: I give other teams the evidence they need and stay until the fix is confirmed.',
   ],
   principles: [
     { title: 'Evidence first', text: 'I measure and test before I change anything.' },
-    { title: 'Clear requirements', text: 'I pin down what the business needs before I design a fix.' },
-    { title: 'Collaboration', text: 'I work with developers, network teams and stakeholders to get changes made.' },
+    { title: 'Clear requirements', text: 'I pin down what the business needs first.' },
+    { title: 'Collaboration', text: 'I work with developers, network teams and stakeholders.' },
     { title: 'Follow-through', text: 'A fix isn’t done until someone confirms it works.' },
   ],
 };
@@ -75,30 +74,30 @@ export const caseStudies: CaseStudy[] = [
   {
     area: 'Data integrity',
     title: 'Deleting customers without losing history',
-    problem: 'Customers had to be deleted, and restored if needed, without breaking the order history that referenced them.',
-    action: 'Met with the stakeholders and agreed to keep order lines and set their customer references to NULL, then changed the schema and stored procedures to match.',
-    result: 'A documented, agreed approach, with specific checks that restoration works.',
+    problem: 'Deleting customers could break the order history that referenced them.',
+    action: 'Agreed with stakeholders to keep order lines with NULL customer references, then updated the schema and procedures.',
+    result: 'An agreed approach, with checks that restoration works.',
   },
   {
     area: 'Performance',
     title: 'A faster customer-lookup API',
     problem: 'A customer-lookup API was slow.',
-    action: 'Analysed the workload behind it, rewrote the stored procedure, added a supporting index, and compared the old and new versions side by side.',
-    result: 'The new version was measurably faster in testing.',
+    action: 'Analysed the workload, rewrote the stored procedure and added an index.',
+    result: 'Measurably faster in side-by-side tests.',
   },
   {
     area: 'Cloud',
     title: 'Restoring Managed Instance connectivity',
-    problem: 'Connections to an Azure SQL Managed Instance were failing.',
-    action: 'Traced the failure to network routing and gave the network team the connection details and the route change it depended on.',
-    result: 'The network team made the change and confirmed that connectivity was restored.',
+    problem: 'Connections to Azure SQL Managed Instance were failing.',
+    action: 'Traced it to network routing and gave the network team the change it needed.',
+    result: 'The network team confirmed connectivity was restored.',
   },
   {
     area: 'Monitoring',
     title: 'Alerting on failed automation',
-    problem: 'Failures in Azure Automation runs needed to reach the team.',
-    action: 'Built and tested an alert, confirmed the email arrived, then adjusted the configuration when it sent repeated notifications.',
-    result: 'A working alert that reports failures without the repeat noise.',
+    problem: 'Failed Azure Automation runs needed to reach the team.',
+    action: 'Built and tested an email alert, then tuned out repeat notifications.',
+    result: 'A working alert without the noise.',
   },
 ];
 
@@ -107,22 +106,21 @@ export const chapters: Chapter[] = [
     id: 'performance',
     eyebrow: 'Performance',
     headline: 'I make slow queries fast.',
-    sub: 'Query and schema work grounded in workload analysis and side-by-side tests.',
-    ai: 'I use AI to read query plans and workload data faster, and to review rewritten T-SQL before I test it.',
+    sub: 'Backed by workload analysis and side-by-side tests.',
+    ai: 'reading query plans and reviewing T-SQL before testing.',
     side: 'left',
     projects: [
       {
         title: 'API query performance',
-        summary:
-          'Analysed the workload behind a slow customer-lookup API, then tested a rewritten stored procedure with a supporting index. The new version was measurably faster in side-by-side tests.',
+        summary: 'Rewrote a slow stored procedure and added an index; measurably faster in tests.',
       },
       {
         title: 'Schema and clustered index review',
-        summary: 'Reviewed a proposed column change and its clustered-index design for risk before it went ahead.',
+        summary: 'Reviewed a column change and its clustered-index design for risk.',
       },
       {
         title: 'Date-based table partitioning',
-        summary: 'Designed date-based partitioning so growing tables stay manageable.',
+        summary: 'Designed date-based partitioning for growing tables.',
       },
     ],
   },
@@ -130,26 +128,25 @@ export const chapters: Chapter[] = [
     id: 'cloud',
     eyebrow: 'Cloud',
     headline: 'I plan, connect and maintain SQL Server on Azure.',
-    sub: 'Azure SQL Managed Instance work that spans the database, the network and the platform around it.',
-    ai: 'I use AI to write and review the PowerShell and automation behind cloud changes, and to work through connectivity problems step by step.',
+    sub: 'Azure SQL Managed Instance: the database, the network and the platform.',
+    ai: 'writing PowerShell and automation, and working through connectivity problems.',
     side: 'right',
     projects: [
       {
         title: 'Managed Instance migration',
-        summary: 'Planned the move of SQL Server workloads to Azure SQL Managed Instance.',
+        summary: 'Planned the move to Azure SQL Managed Instance.',
       },
       {
         title: 'Connectivity resolution',
-        summary:
-          'Traced a Managed Instance connection failure to a routing issue, worked with the network team on the change, and got confirmation that connectivity was restored.',
+        summary: 'Traced a connection failure to routing; the network team confirmed the fix.',
       },
       {
         title: 'AKS private endpoint investigation',
-        summary: 'Investigated private-endpoint connectivity for workloads running on Azure Kubernetes Service.',
+        summary: 'Investigated private-endpoint connectivity for AKS workloads.',
       },
       {
         title: 'Maintenance and job visibility',
-        summary: 'Reviewed maintenance routines and agent-job visibility on Managed Instance.',
+        summary: 'Reviewed maintenance routines and agent-job visibility.',
       },
     ],
   },
@@ -157,29 +154,29 @@ export const chapters: Chapter[] = [
     id: 'resilience',
     eyebrow: 'Resilience',
     headline: 'I make sure data can be recovered.',
-    sub: 'Backups, restores, Always On and replication, so the data survives the bad day.',
-    ai: 'I use AI to write and review backup, restore and replication scripts.',
+    sub: 'Backups, restores, Always On and replication.',
+    ai: 'writing and reviewing backup, restore and replication scripts.',
     side: 'left',
     projects: [
       {
         title: 'Backup upload reliability',
-        summary: 'Investigated unreliable backup uploads and proposed a proof of concept to fix them.',
+        summary: 'Investigated unreliable backup uploads; proposed a proof of concept.',
       },
       {
         title: 'Backup completion notifications',
-        summary: 'Explored designs for notifying the team automatically when backups complete.',
+        summary: 'Explored automatic notifications when backups complete.',
       },
       {
         title: 'Restore automation',
-        summary: 'Scripted and automated database restores on Managed Instance.',
+        summary: 'Scripted and automated database restores.',
       },
       {
         title: 'Always On secondary investigation',
-        summary: 'Investigated data and redo behaviour on an Always On secondary replica.',
+        summary: 'Investigated data and redo behaviour on a secondary replica.',
       },
       {
         title: 'Transactional replication',
-        summary: 'Designed transactional replication and subscriber retention for data distribution.',
+        summary: 'Designed replication and subscriber retention.',
       },
     ],
   },
@@ -187,27 +184,25 @@ export const chapters: Chapter[] = [
     id: 'observability',
     eyebrow: 'Observability',
     headline: 'I find out what went wrong, and why.',
-    sub: 'Alerts, monitoring and incident work that turn symptoms into answers.',
-    ai: 'I use AI to sift through logs, alerts and incident data to get from symptom to cause faster.',
+    sub: 'Alerts, monitoring and incident investigations.',
+    ai: 'sifting through logs, alerts and incident data to find causes faster.',
     side: 'right',
     projects: [
       {
         title: 'Automation failure alerting',
-        summary:
-          'Built and tested an alert for failed Azure Automation runs, confirmed the email arrived, then tuned it to stop repeat notifications.',
+        summary: 'Built, tested and tuned an alert for failed automation runs.',
       },
       {
         title: 'Query observability',
-        summary: 'Designed detailed query monitoring from the application’s point of view, at leadership’s request.',
+        summary: 'Designed application-level query monitoring, requested by leadership.',
       },
       {
         title: 'Missing data incident',
-        summary: 'Investigated a reported missing-data incident to establish what happened.',
+        summary: 'Investigated a reported missing-data incident.',
       },
       {
         title: 'Duplicate data investigation',
-        summary:
-          'Validated duplicate localization data, reproduced it with repeated tests, searched the code for its source, and brought a focused question to the team standup.',
+        summary: 'Reproduced duplicate localization data, traced its source and raised it with the team.',
       },
     ],
   },
@@ -215,26 +210,25 @@ export const chapters: Chapter[] = [
     id: 'data',
     eyebrow: 'Data engineering',
     headline: 'I keep data correct and well modelled.',
-    sub: 'Data models, ETL and integrity changes, agreed with the people who depend on them.',
-    ai: 'I use AI to draft and review data models, ETL logic and SSIS configuration.',
+    sub: 'Data models, ETL and integrity changes.',
+    ai: 'drafting and reviewing data models, ETL logic and SSIS configuration.',
     side: 'left',
     projects: [
       {
         title: 'Customer deletion and restoration',
-        summary:
-          'Agreed a retention approach with stakeholders (keep order lines, null the references), then delivered the schema and procedure changes with restoration checks.',
+        summary: 'Agreed a retention approach and delivered it with restoration checks.',
       },
       {
         title: 'Data warehouse load review',
-        summary: 'Reviewed how the data warehouse loads are orchestrated.',
+        summary: 'Reviewed data warehouse load orchestration.',
       },
       {
         title: 'Data model refactoring',
-        summary: 'Specified a refactored data model and ETL design for device installation data.',
+        summary: 'Specified a refactored data model and ETL design.',
       },
       {
         title: 'SSIS runtime credentials',
-        summary: 'Configured runtime credentials for SSIS package deployments.',
+        summary: 'Configured runtime credentials for SSIS deployments.',
       },
     ],
   },
@@ -242,23 +236,22 @@ export const chapters: Chapter[] = [
     id: 'architecture',
     eyebrow: 'Architecture & AI',
     headline: 'I work beyond the database engine.',
-    sub: 'Integration, access and reporting decisions that connect database work to how the business runs, with AI in every part of the work.',
+    sub: 'Integration, access and reporting decisions, with AI in every part of my work.',
     aiUses: [
-      { label: 'Diagnosis', text: 'Claude connected to SQL Server through MCP to diagnose live issues.' },
-      { label: 'Code and scripts', text: 'T-SQL, PowerShell, SSIS and automation, written and reviewed with AI.' },
-      { label: 'Analysis', text: 'Query plans, workloads, logs and incidents, read faster with AI.' },
-      { label: 'Docs and reports', text: 'Design comparisons, documentation and stakeholder reports, drafted with AI.' },
+      { label: 'Diagnosis', text: 'Claude + MCP on live SQL Server issues.' },
+      { label: 'Code and scripts', text: 'T-SQL, PowerShell, SSIS and automation.' },
+      { label: 'Analysis', text: 'Query plans, workloads, logs and incidents.' },
+      { label: 'Docs and reports', text: 'Design comparisons, docs and stakeholder reports.' },
     ],
     side: 'right',
     projects: [
       {
         title: 'Claude + MCP for SQL Server',
-        summary:
-          'Built a Model Context Protocol (MCP) server that lets Claude diagnose SQL Server replication issues in a live production environment.',
+        summary: 'Built an MCP server so Claude can diagnose SQL Server replication issues in production.',
       },
       {
         title: 'Third-party integration',
-        summary: 'Compared architecture options for integrating a third-party system.',
+        summary: 'Compared options for integrating a third-party system.',
       },
       {
         title: 'Sensitive data access',
@@ -266,8 +259,7 @@ export const chapters: Chapter[] = [
       },
       {
         title: 'Performance reporting',
-        summary:
-          'Prepared performance reporting for stakeholders across organizations, getting permission before sharing work details.',
+        summary: 'Prepared performance reports for stakeholders across organizations.',
       },
     ],
   },

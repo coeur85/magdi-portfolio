@@ -21,7 +21,7 @@ export default function Skills() {
               Skills and tools.
             </h2>
             <p className="mt-5 max-w-lg text-lg leading-relaxed text-muted-foreground sm:text-xl">
-              The database and cloud stack behind the projects above, plus the software and DevOps tools I build with.
+              The stack behind my projects, plus the software and DevOps tools I use.
             </p>
           </motion.div>
 

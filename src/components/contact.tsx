@@ -29,11 +29,11 @@ export default function Contact() {
           <span className="text-gradient-accent">Let&apos;s talk.</span>
         </h2>
         <p className="mx-auto mt-6 max-w-xl text-lg text-muted-foreground">
-          I&apos;m open to database administration and data platform roles. Email me at{' '}
+          Open to database and data platform roles. Email me at{' '}
           <a href={`mailto:${profile.email}`} className="text-foreground underline decoration-accent/60 underline-offset-4">
             {profile.email}
-          </a>{' '}
-          or message me on LinkedIn.
+          </a>
+          .
         </p>
       </motion.div>
 

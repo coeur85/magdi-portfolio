@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import { Download } from 'lucide-react';
 import { socialLinks } from '@/components/social';
 import { profile } from '@/lib/portfolio';
 
@@ -43,6 +44,16 @@ export default function Contact() {
         variants={{ show: { transition: { staggerChildren: 0.07 } } }}
         className="mx-auto flex flex-wrap items-center justify-center gap-3"
       >
+        <motion.li variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, transition: { duration: 0.7, ease } } }}>
+          <a
+            href={profile.cv}
+            download
+            className="flex items-center gap-2.5 rounded-full bg-accent px-5 py-3 text-sm font-medium text-white transition-all hover:brightness-110 active:scale-95"
+          >
+            <Download className="h-4 w-4" />
+            Download CV
+          </a>
+        </motion.li>
         {socialLinks.map(({ href, label, icon: Icon }) => (
           <motion.li
             key={label}

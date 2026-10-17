@@ -3,7 +3,7 @@
 import { useRef } from 'react';
 import Link from 'next/link';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { Linkedin } from 'lucide-react';
+import { Download, Linkedin } from 'lucide-react';
 import { profile } from '@/lib/portfolio';
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -77,19 +77,28 @@ export default function Intro() {
             <Link
               href="#contact"
               prefetch={false}
-              className="rounded-full bg-accent px-6 py-3 text-sm font-medium text-white transition hover:brightness-110 active:scale-95"
+              className="rounded-full bg-accent px-5 py-3 text-sm font-medium text-white transition hover:brightness-110 active:scale-95 sm:px-6"
             >
               Get in touch
             </Link>
+            <a
+              href={profile.cv}
+              download
+              className="flex items-center gap-2 rounded-full border border-white/20 px-5 py-3 text-sm font-medium text-foreground/90 transition hover:border-accent/60 hover:text-foreground active:scale-95 sm:px-6"
+            >
+              <Download className="h-4 w-4" />
+              Download CV
+            </a>
             <Link
               href={profile.linkedin}
               target="_blank"
               rel="noreferrer"
               prefetch={false}
-              className="flex items-center gap-2 rounded-full border border-white/20 px-6 py-3 text-sm font-medium text-foreground/90 transition hover:border-accent/60 hover:text-foreground active:scale-95"
+              aria-label="LinkedIn"
+              className="flex items-center gap-2 rounded-full border border-white/20 px-3.5 py-3 text-sm font-medium text-foreground/90 transition hover:border-accent/60 hover:text-foreground active:scale-95 sm:px-6"
             >
               <Linkedin className="h-4 w-4" />
-              LinkedIn
+              <span className="hidden sm:inline">LinkedIn</span>
             </Link>
           </motion.div>
         </div>

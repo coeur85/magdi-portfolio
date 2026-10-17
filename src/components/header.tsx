@@ -3,10 +3,11 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { motion, useScroll, useSpring } from 'framer-motion';
-import { Menu } from 'lucide-react';
+import { Download, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Logo } from '@/components/logo';
+import { profile } from '@/lib/portfolio';
 
 const navLinks = [
   { href: '#about', label: 'About' },
@@ -70,6 +71,14 @@ export default function Header() {
               {link.label}
             </Link>
           ))}
+          <a
+            href={profile.cv}
+            download
+            className="flex items-center gap-1.5 rounded-full border border-white/20 px-3 py-1 text-foreground/90 transition-colors hover:border-accent/60 hover:text-foreground"
+          >
+            <Download className="h-3.5 w-3.5" />
+            CV
+          </a>
         </nav>
         <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger asChild>
@@ -100,6 +109,14 @@ export default function Header() {
                   {link.label}
                 </Link>
               ))}
+              <a
+                href={profile.cv}
+                download
+                className="mt-4 flex items-center gap-2 py-2 text-xl font-semibold tracking-tight text-accent"
+              >
+                <Download className="h-5 w-5" />
+                Download CV
+              </a>
             </nav>
           </SheetContent>
         </Sheet>

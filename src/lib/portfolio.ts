@@ -42,6 +42,8 @@ export const profile = {
   photo: '/images/profile.jpeg',
   email: 'me@amagdi.dev',
   linkedin: 'https://www.linkedin.com/in/ahmedmmagdi/',
+  // Generated from docs/cv.html.
+  cv: '/Ahmed-Magdi-CV.pdf',
 };
 
 // Written from the portfolio guide's career summary. It claims technical leadership,

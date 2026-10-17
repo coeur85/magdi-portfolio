@@ -1,0 +1,80 @@
+'use client';
+
+import { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { profile } from '@/lib/portfolio';
+
+const ease = [0.22, 1, 0.36, 1] as const;
+
+export default function Intro() {
+  const ref = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
+  const y = useTransform(scrollYProgress, [0, 1], [0, -120]);
+  const opacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
+  const cueOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0]);
+
+  return (
+    <section id="about" data-scene="intro" ref={ref} className="relative h-[100svh] min-h-[640px]">
+      <motion.div
+        style={{ y, opacity }}
+        className="container mx-auto flex h-full flex-col justify-end px-4 pb-36 md:justify-center md:px-6 md:pb-0"
+      >
+        <div className="max-w-xl">
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.2, ease }}
+            className="mb-5 text-sm font-medium uppercase tracking-[0.2em] text-accent"
+          >
+            Hi, I&apos;m
+          </motion.p>
+          <h1 className="pb-2 text-6xl font-semibold leading-[0.95] tracking-[-0.045em] sm:text-7xl lg:text-8xl">
+            {profile.name.split(' ').map((word, i) => (
+              <motion.span
+                key={word}
+                initial={{ opacity: 0, y: 40, filter: 'blur(12px)' }}
+                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                transition={{ duration: 1.1, delay: 0.35 + i * 0.15, ease }}
+                className="text-gradient block pb-2"
+              >
+                {word}
+              </motion.span>
+            ))}
+          </h1>
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.75, ease }}
+            className="mt-6 text-xl font-medium tracking-tight text-foreground/90 sm:text-2xl"
+          >
+            {profile.title}
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.9, ease }}
+            className="mt-4 max-w-md text-lg leading-relaxed text-muted-foreground"
+          >
+            {profile.tagline}
+          </motion.p>
+        </div>
+      </motion.div>
+
+      <motion.div
+        style={{ opacity: cueOpacity }}
+        className="pointer-events-none absolute inset-x-0 bottom-8 flex flex-col items-center gap-3 text-xs uppercase tracking-[0.25em] text-muted-foreground"
+      >
+        <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.4, duration: 1 }}>
+          Scroll
+        </motion.span>
+        <span className="relative h-10 w-px overflow-hidden bg-white/10">
+          <motion.span
+            className="absolute inset-x-0 top-0 h-1/2 bg-accent"
+            animate={{ y: ['-100%', '200%'] }}
+            transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+          />
+        </span>
+      </motion.div>
+    </section>
+  );
+}

@@ -1,9 +1,0 @@
-{
-    "hero": {
-      "src": "/images/profile.jpeg",
-      "width": 400,
-      "height": 400,
-      "alt": "Ahmed Magdi profile picture",
-      "aiHint": "man portrait"
-    }
-}

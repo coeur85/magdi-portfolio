@@ -15,7 +15,7 @@ export default function Cases() {
   return (
     <section id="cases" data-scene="cases" className="relative pb-[12vh] pt-[50svh] md:py-[22vh]">
       <div className="container mx-auto grid px-4 md:grid-cols-2 md:gap-16 md:px-6">
-        <div className="rounded-3xl bg-black/55 p-6 backdrop-blur-md md:col-start-2 md:bg-transparent md:p-0 md:backdrop-blur-none">
+        <div className="rounded-3xl bg-black/70 p-6 md:col-start-2 md:bg-transparent md:p-0">
           <motion.div
             initial={{ opacity: 0, y: 60, filter: 'blur(14px)' }}
             whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}

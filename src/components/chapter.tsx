@@ -9,22 +9,21 @@ const ease = [0.22, 1, 0.36, 1] as const;
 
 export default function Chapter({ chapter, index }: { chapter: ChapterData; index: number }) {
   const ref = useRef<HTMLElement>(null);
-  // The headline resolves out of a blur as the chapter scrolls into place.
+  // The headline rises and fades in as the chapter scrolls into place.
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'start 0.25'] });
   const opacity = useTransform(scrollYProgress, [0.15, 1], [0, 1]);
   const y = useTransform(scrollYProgress, [0, 1], [90, 0]);
   const scale = useTransform(scrollYProgress, [0, 1], [0.94, 1]);
-  const filter = useTransform(scrollYProgress, [0.2, 1], ['blur(14px)', 'blur(0px)']);
 
   return (
     <section ref={ref} id={chapter.id} data-scene={chapter.id} className="relative pb-[12vh] pt-[65svh] md:py-[22vh]">
       <div className="container mx-auto grid px-4 md:grid-cols-2 md:gap-16 md:px-6">
         <div
-          className={`rounded-3xl bg-black/55 p-6 backdrop-blur-md md:bg-transparent md:p-0 md:backdrop-blur-none ${
+          className={`rounded-3xl bg-black/70 p-6 md:bg-transparent md:p-0 ${
             chapter.side === 'right' ? 'md:col-start-2' : ''
           }`}
         >
-          <motion.div style={{ opacity, y, scale, filter }} className="origin-left">
+          <motion.div style={{ opacity, y, scale }} className="origin-left">
             <p className="flex items-center gap-3 text-sm font-medium uppercase tracking-[0.2em] text-accent">
               <span className="tabular-nums">{String(index + 1).padStart(2, '0')}</span>
               <span className="h-px w-8 bg-accent/60" />

@@ -207,9 +207,8 @@ function additive(color: THREE.Color, map?: THREE.Texture) {
 
 function createStack(shared: Shared, seed: number, transparent: boolean) {
   const group = new THREE.Group();
-  const body = new THREE.MeshPhysicalMaterial({
-    color: 0x07090e, metalness: 0.85, roughness: 0.42, clearcoat: 0.35, clearcoatRoughness: 0.35,
-    envMapIntensity: 0.22, transparent,
+  const body = new THREE.MeshStandardMaterial({
+    color: 0x07090e, metalness: 0.85, roughness: 0.4, envMapIntensity: 0.25, transparent,
   });
   const rim = additive(new THREE.Color());
   const rimLow = additive(new THREE.Color());
@@ -273,9 +272,15 @@ export function createCoreScene(canvas: HTMLCanvasElement): () => void {
   }
 
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const small = Math.min(window.innerWidth, window.innerHeight) < 768;
-  const dpr = Math.min(window.devicePixelRatio, small ? 1.5 : 1.75);
-  renderer.setPixelRatio(dpr);
+  // Rendering is pixel-bound (bloom makes several full-screen passes), so cap the pixels drawn
+  // per frame. The frame-rate monitor in tick() lowers `quality` further on slower GPUs.
+  const PIXEL_BUDGET = 2.2e6;
+  let quality = 1;
+  let bloomOn = true;
+  const pixelRatio = () => {
+    const cap = Math.min(window.devicePixelRatio, 1.5, Math.sqrt(PIXEL_BUDGET / (window.innerWidth * window.innerHeight)));
+    return Math.max(0.5, cap * quality);
+  };
   renderer.toneMapping = THREE.NeutralToneMapping;
   renderer.outputColorSpace = THREE.SRGBColorSpace;
 
@@ -570,7 +575,7 @@ export function createCoreScene(canvas: HTMLCanvasElement): () => void {
   );
   scene.add(dust);
 
-  const target = new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType, samples: 4 });
+  const target = new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType, samples: 2 });
   const composer = new EffectComposer(renderer, target);
   composer.addPass(new RenderPass(scene, camera));
   const bloom = new UnrealBloomPass(new THREE.Vector2(1, 1), 0.85, 0.55, 0.6);
@@ -589,8 +594,10 @@ export function createCoreScene(canvas: HTMLCanvasElement): () => void {
   const resize = () => {
     const w = window.innerWidth;
     const h = window.innerHeight;
+    const ratio = pixelRatio();
+    renderer.setPixelRatio(ratio);
     renderer.setSize(w, h, false);
-    composer.setPixelRatio(dpr);
+    composer.setPixelRatio(ratio);
     composer.setSize(w, h);
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
@@ -699,6 +706,23 @@ export function createCoreScene(canvas: HTMLCanvasElement): () => void {
     return out.applyQuaternion(spinner.quaternion);
   };
 
+  // Steps quality down while frames run slow, then turns bloom off as a last resort,
+  // and steps back up when there is headroom. The first seconds are skipped (shader compiles).
+  let warmup = 2.5;
+  let sampleTime = 0;
+  let sampleFrames = 0;
+  const adjustQuality = (fps: number) => {
+    if (fps < 45 && quality > 0.55) {
+      quality = Math.max(0.55, quality - 0.15);
+      resize();
+    } else if (fps < 30 && bloomOn) {
+      bloomOn = false;
+    } else if (fps > 57 && bloomOn && quality < 1) {
+      quality = Math.min(1, quality + 0.1);
+      resize();
+    }
+  };
+
   let frame = 0;
   let last = performance.now();
   const start = last;
@@ -708,8 +732,22 @@ export function createCoreScene(canvas: HTMLCanvasElement): () => void {
   const tick = (now: number) => {
     frame = requestAnimationFrame(tick);
     // The first frame's timestamp can predate setup, so never let time run backwards.
-    const dt = THREE.MathUtils.clamp((now - last) / 1000, 0, 0.05);
+    const frameTime = (now - last) / 1000;
+    const dt = THREE.MathUtils.clamp(frameTime, 0, 0.1);
     last = now;
+    // Real frame time, not the clamped dt, so very slow machines adapt quickly too.
+    // Gaps over 2s (a background tab) are ignored.
+    if (warmup > 0) {
+      warmup -= Math.max(frameTime, 0);
+    } else if (frameTime > 0 && frameTime < 2) {
+      sampleTime += frameTime;
+      sampleFrames++;
+      if (sampleTime > 1.5) {
+        adjustQuality(sampleFrames / sampleTime);
+        sampleTime = 0;
+        sampleFrames = 0;
+      }
+    }
     elapsed += dt * (reducedMotion ? 0.3 : 1);
     const appear = easeOutCubic(Math.min((now - start) / 1800, 1));
 
@@ -828,10 +866,10 @@ export function createCoreScene(canvas: HTMLCanvasElement): () => void {
       issueMarkers.forEach((marker, k) => {
         const resolved = k < current || (k === current && phase > 0.5);
         const flash = k === current && phase > 0.5 ? Math.max(0, 1 - (phase - 0.5) * 4) : 0;
-        marker.material.color.copy(resolved ? ACCENT : ALERT).multiplyScalar(3 * pose.issues).add(tint.copy(PULSE).multiplyScalar(flash * 3 * pose.issues));
+        marker.material.color.copy(resolved ? ACCENT : ALERT).multiplyScalar((resolved ? 1.8 : 0.6) * pose.issues).add(tint.copy(PULSE).multiplyScalar(flash * 1.5 * pose.issues));
         marker.material.opacity = pose.issues;
         marker.haloMaterial.color.copy(resolved ? ACCENT : ALERT);
-        marker.haloMaterial.opacity = 0.7 * pose.issues;
+        marker.haloMaterial.opacity = (resolved ? 0.35 : 0.08) * pose.issues;
         marker.mesh.rotation.y = elapsed * 1.5;
         marker.mesh.scale.setScalar(pose.issues * (1 + flash * 0.6) + 1e-4);
       });
@@ -899,7 +937,8 @@ export function createCoreScene(canvas: HTMLCanvasElement): () => void {
     dust.position.y = coordinate * 0.9;
     dust.rotation.y = elapsed * 0.01;
 
-    composer.render();
+    if (bloomOn) composer.render();
+    else renderer.render(scene, camera);
   };
   frame = requestAnimationFrame(tick);
 

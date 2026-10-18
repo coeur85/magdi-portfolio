@@ -9,7 +9,7 @@ export default function Skills() {
   return (
     <section id="skills" data-scene="skills" className="relative pb-[12vh] pt-[65svh] md:py-[22vh]">
       <div className="container mx-auto grid px-4 md:grid-cols-12 md:px-6">
-        <div className="rounded-3xl bg-black/55 p-6 backdrop-blur-md md:col-span-8 md:bg-transparent md:p-0 md:backdrop-blur-none lg:col-span-7">
+        <div className="rounded-3xl bg-black/70 p-6 md:col-span-8 md:bg-transparent md:p-0 lg:col-span-7">
           <motion.div
             initial={{ opacity: 0, y: 60, filter: 'blur(14px)' }}
             whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}

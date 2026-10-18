@@ -12,6 +12,7 @@ import type { SceneId } from '@/lib/portfolio';
 
 const ACCENT = new THREE.Color('#2997ff');
 const PULSE = new THREE.Color('#d6ebff');
+const ALERT = new THREE.Color('#ffb020');
 
 // Disk dimensions
 const R = 1.55;
@@ -23,8 +24,11 @@ const SPREAD = 0.95;
 const NODE_COUNT = 6;
 const TRAIL = 56;
 const REPLICA_OFFSET = new THREE.Vector3(2.1, 0.35, -2.6);
+const STEP_COUNT = 16;
+const ISSUE_WINDOW = 2.4; // seconds the pulse spends on each problem marker
+const STREAKS = 36;
 
-type PulseMode = 'orbit' | 'helix' | 'route' | 'shuttle' | 'scan' | 'weave' | 'neural';
+type PulseMode = 'orbit' | 'helix' | 'route' | 'shuttle' | 'scan' | 'weave' | 'neural' | 'climb' | 'visit' | 'beacon';
 
 type Pose = {
   x: number; // fraction of half the viewport width
@@ -38,37 +42,47 @@ type Pose = {
   network: number; // routes drawn out to nodes, 0..1
   ai: number; // neural network above the core, 0..1
   scan: number; // scanning ring, 0..1
+  float: number; // disks levitate apart and bob, 0..1
+  steps: number; // spiral staircase around the stack, 0..1
+  issues: number; // four problem markers, 0..1
+  speed: number; // light streaks and fast-spinning disks, 0..1
+  orbitals: number; // tilted orbits carrying tool chips, 0..1
+  broadcast: number; // signal rings from a beacon above the stack, 0..1
   flow: number; // data band speed
   glow: number;
   pulse: PulseMode;
 };
 
-const NUMERIC = ['x', 'y', 'z', 'scale', 'rx', 'ry', 'spread', 'replica', 'network', 'ai', 'scan', 'flow', 'glow'] as const;
+const NUMERIC = [
+  'x', 'y', 'z', 'scale', 'rx', 'ry', 'spread', 'replica', 'network', 'ai', 'scan',
+  'float', 'steps', 'issues', 'speed', 'orbitals', 'broadcast', 'flow', 'glow',
+] as const;
 
 const BASE: Pose = {
   x: 0, y: 0, z: 0, scale: 1, rx: 0.32, ry: 0, spread: 0, replica: 0,
-  network: 0, ai: 0, scan: 0, flow: 0.4, glow: 1, pulse: 'orbit',
+  network: 0, ai: 0, scan: 0, float: 0, steps: 0, issues: 0, speed: 0, orbitals: 0, broadcast: 0,
+  flow: 0.4, glow: 1, pulse: 'orbit',
 };
 
 const POSES: Record<SceneId, Pose> = {
-  intro: { ...BASE, x: 0.42, y: -0.04, ry: 0.5 },
-  about: { ...BASE, x: 0.44, scale: 0.85, rx: 0.4, ry: 1.3, spread: 0.25, glow: 0.9 },
-  cases: { ...BASE, x: -0.42, scale: 0.8, rx: 0.35, ry: 2, flow: 1.2, glow: 1.05 },
-  performance: { ...BASE, x: 0.44, rx: 0.22, ry: 2.8, flow: 2.4, glow: 1.3, pulse: 'helix' },
+  intro: { ...BASE, x: 0.42, y: -0.04, ry: 0.5, float: 1 },
+  about: { ...BASE, x: 0.44, scale: 0.8, rx: 0.4, ry: 1.3, steps: 1, glow: 0.95, pulse: 'climb' },
+  cases: { ...BASE, x: -0.42, scale: 0.78, rx: 0.35, ry: 2, issues: 1, pulse: 'visit' },
+  performance: { ...BASE, x: 0.44, rx: 0.22, ry: 2.8, flow: 2.4, glow: 1.3, speed: 1, pulse: 'helix' },
   cloud: { ...BASE, x: -0.42, scale: 0.78, rx: 0.42, ry: 3.6, network: 1, pulse: 'route' },
   resilience: { ...BASE, x: 0.3, scale: 0.78, ry: 4.4, replica: 1, pulse: 'shuttle' },
   observability: { ...BASE, x: -0.44, rx: 0.26, ry: 5.2, scan: 1, glow: 1.1, pulse: 'scan' },
   data: { ...BASE, x: 0.44, scale: 0.86, rx: 0.5, ry: 5.9, spread: 1, pulse: 'weave' },
   architecture: { ...BASE, x: -0.42, y: -0.14, scale: 0.72, rx: 0.3, ry: 6.7, ai: 1, glow: 1.1, pulse: 'neural' },
-  skills: { ...BASE, x: 0.52, y: 0.08, z: -1, scale: 0.7, rx: 0.4, ry: 7.6, spread: 0.45, glow: 0.8 },
-  contact: { ...BASE, y: -0.1, scale: 0.78, rx: 0.3, ry: 8.6, glow: 1.2 },
+  skills: { ...BASE, x: 0.52, y: 0.08, z: -1, scale: 0.7, rx: 0.4, ry: 7.6, glow: 0.9, orbitals: 1 },
+  contact: { ...BASE, y: -0.3, scale: 0.56, rx: 0.3, ry: 8.6, glow: 1.2, broadcast: 1, pulse: 'beacon' },
 };
 
 // On portrait screens the core stays centred above the text instead of beside it.
 function adapt(pose: Pose, id: SceneId, portrait: boolean): Pose {
   if (!portrait) return pose;
-  const y = id === 'contact' ? -0.12 : id === 'intro' ? 0.5 : id === 'architecture' ? 0.06 : 0.22;
-  const scale = id === 'contact' ? 0.45 : id === 'intro' ? 0.5 : 0.6;
+  const y = id === 'contact' ? -0.03 : id === 'intro' ? 0.5 : id === 'architecture' ? 0.06 : 0.22;
+  const scale = id === 'contact' ? 0.55 : id === 'intro' ? 0.5 : 0.6;
   return { ...pose, x: -0.3 * pose.replica, y, scale: pose.scale * scale };
 }
 
@@ -422,6 +436,100 @@ export function createCoreScene(canvas: HTMLCanvasElement): () => void {
   neural.add(signalPoints);
   let coreFlash = 0;
 
+  // About: a spiral staircase of glowing steps that the pulse climbs.
+  const stairTurn = Math.PI * 3.2;
+  const stairPoint = (u: number, out: THREE.Vector3) =>
+    out.set(Math.cos(u * stairTurn) * (R + 0.55), THREE.MathUtils.lerp(-1.25, 1.45, u), Math.sin(u * stairTurn) * (R + 0.55));
+  const stairs = new THREE.Group();
+  spinner.add(stairs);
+  const stepGeometry = new THREE.BoxGeometry(0.46, 0.05, 0.22);
+  const steps = Array.from({ length: STEP_COUNT }, (_, k) => {
+    const u = k / (STEP_COUNT - 1);
+    const step = new THREE.Mesh(stepGeometry, additive(new THREE.Color()));
+    stairPoint(u, step.position);
+    step.rotation.y = -u * stairTurn; // radial, like the treads of a spiral staircase
+    stairs.add(step);
+    return { u, material: step.material as THREE.MeshBasicMaterial };
+  });
+
+  // Case studies: four problem markers; the pulse visits each and it turns from amber to blue.
+  const issues = new THREE.Group();
+  spinner.add(issues);
+  const issueGeometry = new THREE.OctahedronGeometry(0.13);
+  const issueMarkers = [0, 1, 2, 3].map((k) => {
+    const angle = Math.PI / 4 + (k * Math.PI) / 2;
+    const position = new THREE.Vector3(Math.cos(angle) * (R + 1), k % 2 ? 0.45 : -0.35, Math.sin(angle) * (R + 1));
+    const material = new THREE.MeshBasicMaterial({ color: new THREE.Color(), transparent: true, toneMapped: false });
+    const mesh = new THREE.Mesh(issueGeometry, material);
+    mesh.position.copy(position);
+    const haloMaterial = new THREE.SpriteMaterial({
+      map: glowMap, color: new THREE.Color(), transparent: true, blending: THREE.AdditiveBlending, depthWrite: false,
+    });
+    const halo = new THREE.Sprite(haloMaterial);
+    halo.scale.setScalar(0.9);
+    halo.position.copy(position);
+    issues.add(mesh, halo);
+    return { position, mesh, material, haloMaterial };
+  });
+
+  // Performance: light streaks rushing past the core.
+  const streakRandom = mulberry32(9);
+  const streakData = Array.from({ length: STREAKS }, () => ({
+    x: (streakRandom() - 0.5) * 5.6,
+    y: (streakRandom() - 0.5) * 3.6,
+    z: (streakRandom() - 0.5) * 3,
+    length: 0.6 + streakRandom() * 1.4,
+    speed: 7 + streakRandom() * 7,
+  }));
+  const streakPositions = new Float32Array(STREAKS * 6);
+  const streakColors = new Float32Array(STREAKS * 6);
+  const streakGeometry = new THREE.BufferGeometry();
+  streakGeometry.setAttribute('position', new THREE.BufferAttribute(streakPositions, 3));
+  streakGeometry.setAttribute('color', new THREE.BufferAttribute(streakColors, 3));
+  const streakMaterial = new THREE.LineBasicMaterial({
+    color: new THREE.Color(), vertexColors: true, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false,
+  });
+  const streaks = new THREE.LineSegments(streakGeometry, streakMaterial);
+  streaks.frustumCulled = false;
+  root.add(streaks);
+  const spinOffsets = [0, 0, 0];
+
+  // Skills: four tilted orbits, one per skill group, each carrying small tool chips.
+  const orbitals = new THREE.Group();
+  root.add(orbitals);
+  const chipGeometry = new THREE.BoxGeometry(0.14, 0.14, 0.14);
+  const orbitRingMaterial = additive(new THREE.Color());
+  const chipMaterial = new THREE.MeshBasicMaterial({ color: new THREE.Color(), transparent: true, toneMapped: false });
+  const orbits = [
+    { radius: 2.0, tilt: new THREE.Euler(1.25, 0, 0.25), chips: 4, speed: 0.5 },
+    { radius: 2.3, tilt: new THREE.Euler(1.0, 0.5, -0.5), chips: 3, speed: -0.38 },
+    { radius: 2.6, tilt: new THREE.Euler(1.7, -0.4, 0.6), chips: 5, speed: 0.3 },
+    { radius: 2.9, tilt: new THREE.Euler(1.45, 0.9, -0.15), chips: 3, speed: -0.24 },
+  ].map(({ radius, tilt, chips, speed }) => {
+    const plane = new THREE.Group();
+    plane.rotation.copy(tilt);
+    plane.add(new THREE.Mesh(new THREE.TorusGeometry(radius, 0.006, 4, 220), orbitRingMaterial));
+    const chipMeshes = Array.from({ length: chips }, () => {
+      const chip = new THREE.Mesh(chipGeometry, chipMaterial);
+      plane.add(chip);
+      return chip;
+    });
+    orbitals.add(plane);
+    return { radius, chips: chipMeshes, speed };
+  });
+
+  // Contact: the pulse becomes a beacon above the stack, sending out signal rings.
+  const beaconTop = new THREE.Vector3(0, H + GAP + H / 2 + 0.5, 0);
+  const beaconRoot = new THREE.Vector3();
+  const tint = new THREE.Color();
+  const signalRings = [0, 1, 2].map(() => {
+    const material = additive(new THREE.Color());
+    material.side = THREE.DoubleSide;
+    const ring = new THREE.Mesh(new THREE.RingGeometry(0.96, 1, 128), material);
+    root.add(ring);
+    return { ring, material };
+  });
+
   // The data pulse: the second object travelling with the core.
   const pulse = new THREE.Group();
   pulse.add(new THREE.Mesh(new THREE.SphereGeometry(0.075, 20, 20), new THREE.MeshBasicMaterial({ color: PULSE.clone().multiplyScalar(4), toneMapped: false })));
@@ -550,6 +658,35 @@ export function createCoreScene(canvas: HTMLCanvasElement): () => void {
         out.set(Math.cos(angle) * (R + 0.35), Math.sin(angle * 0.5) * stackHalf, Math.sin(angle) * (R + 0.35));
         break;
       }
+      case 'climb': {
+        // Up the staircase and back down, riding just above the treads.
+        stairPoint(0.5 - 0.5 * Math.cos(t * 0.6), out).y += 0.12;
+        break;
+      }
+      case 'visit': {
+        // Marker to marker around the core, circling each one while it is fixed.
+        const cycle = t / ISSUE_WINDOW;
+        const k = Math.floor(cycle) % issueMarkers.length;
+        const phase = cycle - Math.floor(cycle);
+        const travel = smoothstep(Math.min(phase / 0.5, 1));
+        out.lerpVectors(issueMarkers[(k + 3) % 4].position, issueMarkers[k].position, travel);
+        const radial = Math.hypot(out.x, out.z) || 1;
+        const bulge = Math.sin(travel * Math.PI) * 0.6;
+        out.x += (out.x / radial) * bulge;
+        out.z += (out.z / radial) * bulge;
+        if (phase > 0.5) {
+          const angle = (phase - 0.5) * 14;
+          const size = Math.sin(((phase - 0.5) / 0.5) * Math.PI) * 0.22;
+          out.x += Math.cos(angle) * size;
+          out.z += Math.sin(angle) * size;
+        }
+        break;
+      }
+      case 'beacon': {
+        out.copy(beaconTop);
+        out.y += Math.sin(t * 2) * 0.06;
+        break;
+      }
       case 'neural': {
         // Spirals down through the neural layers into the core and back up.
         const u = 0.5 - 0.5 * Math.cos(t * 0.8);
@@ -570,7 +707,8 @@ export function createCoreScene(canvas: HTMLCanvasElement): () => void {
 
   const tick = (now: number) => {
     frame = requestAnimationFrame(tick);
-    const dt = Math.min((now - last) / 1000, 0.05);
+    // The first frame's timestamp can predate setup, so never let time run backwards.
+    const dt = THREE.MathUtils.clamp((now - last) / 1000, 0, 0.05);
     last = now;
     elapsed += dt * (reducedMotion ? 0.3 : 1);
     const appear = easeOutCubic(Math.min((now - start) / 1800, 1));
@@ -632,6 +770,15 @@ export function createCoreScene(canvas: HTMLCanvasElement): () => void {
     core.setSpread(pose.spread);
     core.setLook(glow * (1 + 0.4 * coreFlash * ai));
     core.flow(dt, pose.flow);
+    core.disks.forEach((disk, i) => {
+      // Opening: the disks levitate apart, each bobbing on its own rhythm.
+      disk.position.y += pose.float * ((i - 1) * 0.16 + Math.sin(elapsed * 1.3 + i * 1.7) * 0.07);
+      disk.rotation.z = pose.float * Math.sin(elapsed * 0.8 + i * 2.1) * 0.05;
+      disk.rotation.x = pose.float * Math.cos(elapsed * 0.7 + i * 1.3) * 0.04;
+      // Performance: each disk spins at its own speed, alternating direction.
+      spinOffsets[i] += dt * pose.speed * (1.5 + i) * (i % 2 ? -1 : 1);
+      disk.rotation.y += spinOffsets[i];
+    });
     halo.material.opacity = 0.16 * glow;
     const stackHalf = H + GAP + pose.spread * SPREAD + H / 2;
 
@@ -662,6 +809,74 @@ export function createCoreScene(canvas: HTMLCanvasElement): () => void {
     scan.position.y = Math.sin(elapsed * 1.3) * (stackHalf + 0.05);
     scanRingMaterial.color.copy(ACCENT).multiplyScalar(3.2 * pose.scan);
     scanDiscMaterial.color.copy(ACCENT).multiplyScalar(0.25 * pose.scan);
+
+    stairs.visible = pose.steps > 0.005;
+    if (stairs.visible) {
+      const climbed = 0.5 - 0.5 * Math.cos(elapsed * 0.6);
+      for (const step of steps) {
+        const shown = THREE.MathUtils.clamp((pose.steps * 1.3 - step.u) * 6, 0, 1);
+        const lit = (step.u <= climbed ? 1.5 : 0.55) + 2.6 * Math.exp(-((step.u - climbed) ** 2) / 0.004);
+        step.material.color.copy(ACCENT).multiplyScalar(lit * shown);
+      }
+    }
+
+    issues.visible = pose.issues > 0.005;
+    if (issues.visible) {
+      const cycle = elapsed / ISSUE_WINDOW;
+      const current = Math.floor(cycle) % issueMarkers.length;
+      const phase = cycle - Math.floor(cycle);
+      issueMarkers.forEach((marker, k) => {
+        const resolved = k < current || (k === current && phase > 0.5);
+        const flash = k === current && phase > 0.5 ? Math.max(0, 1 - (phase - 0.5) * 4) : 0;
+        marker.material.color.copy(resolved ? ACCENT : ALERT).multiplyScalar(3 * pose.issues).add(tint.copy(PULSE).multiplyScalar(flash * 3 * pose.issues));
+        marker.material.opacity = pose.issues;
+        marker.haloMaterial.color.copy(resolved ? ACCENT : ALERT);
+        marker.haloMaterial.opacity = 0.7 * pose.issues;
+        marker.mesh.rotation.y = elapsed * 1.5;
+        marker.mesh.scale.setScalar(pose.issues * (1 + flash * 0.6) + 1e-4);
+      });
+    }
+
+    streaks.visible = pose.speed > 0.005;
+    if (streaks.visible) {
+      streakMaterial.color.copy(ACCENT).multiplyScalar(1.8 * pose.speed);
+      streakData.forEach((streak, i) => {
+        streak.x += dt * streak.speed * (reducedMotion ? 0.3 : 1);
+        if (streak.x > 2.8) streak.x -= 5.6;
+        streakPositions.set([streak.x - streak.length, streak.y, streak.z, streak.x, streak.y, streak.z], i * 6);
+        // Dark tail, bright head, fading in and out at the ends of the run so streaks stay near the core.
+        const head = Math.sin(((streak.x + 2.8) / 5.6) * Math.PI);
+        streakColors.set([0, 0, 0, head, head, head], i * 6);
+      });
+      streakGeometry.attributes.position.needsUpdate = true;
+      streakGeometry.attributes.color.needsUpdate = true;
+    }
+
+    orbitals.visible = pose.orbitals > 0.005;
+    if (orbitals.visible) {
+      orbitals.scale.setScalar(0.6 + 0.4 * pose.orbitals);
+      orbitals.rotation.y = elapsed * 0.08;
+      orbitRingMaterial.color.copy(ACCENT).multiplyScalar(0.7 * pose.orbitals);
+      chipMaterial.color.copy(PULSE).multiplyScalar(2.2);
+      chipMaterial.opacity = pose.orbitals;
+      for (const orbit of orbits) {
+        orbit.chips.forEach((chip, j) => {
+          const angle = elapsed * orbit.speed + (j / orbit.chips.length) * Math.PI * 2;
+          chip.position.set(Math.cos(angle) * orbit.radius, Math.sin(angle) * orbit.radius, 0);
+          chip.rotation.set(elapsed, elapsed * 0.7, 0);
+        });
+      }
+    }
+
+    beaconRoot.copy(beaconTop).applyQuaternion(spinner.quaternion);
+    signalRings.forEach(({ ring, material }, k) => {
+      ring.visible = pose.broadcast > 0.005;
+      if (!ring.visible) return;
+      const phase = (elapsed * 0.45 + k / signalRings.length) % 1;
+      ring.position.copy(beaconRoot);
+      ring.scale.setScalar(0.2 + phase * 1.6);
+      material.color.copy(ACCENT).multiplyScalar(1.2 * Math.pow(1 - phase, 1.5) * pose.broadcast);
+    });
 
     // Blend the pulse between the outgoing and incoming chapter's paths.
     pulsePoint(from.pulse, elapsed, stackHalf, a);

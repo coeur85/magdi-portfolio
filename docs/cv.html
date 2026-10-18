@@ -1,0 +1,166 @@
+<!doctype html>
+<!--
+  Source for public/Ahmed-Magdi-CV.pdf, the CV linked from the site.
+  Regenerate after editing (A4, no browser header or footer):
+    chrome --headless --no-pdf-header-footer --print-to-pdf=public/Ahmed-Magdi-CV.pdf docs/cv.html
+  Content follows src/lib/portfolio.ts: no people, organisations or measured figures.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Ahmed Magdi — CV</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<style>
+  @page { size: A4; margin: 15mm 16mm 15mm; }
+  :root {
+    --ink: #1d1d1f;
+    --muted: #55555b;
+    --rule: #e3e3e8;
+    --accent: #0b6bcb;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body { margin: 0; font-family: Inter, 'Helvetica Neue', Arial, sans-serif; font-size: 9.4pt; line-height: 1.45; color: var(--ink); }
+  a { color: inherit; text-decoration: none; }
+
+  header { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; padding-bottom: 10px; border-bottom: 2px solid var(--ink); }
+  h1 { margin: 0; font-size: 24pt; font-weight: 700; letter-spacing: -0.02em; line-height: 1.05; }
+  .role { margin: 4px 0 0; font-size: 11pt; font-weight: 500; color: var(--accent); }
+  .contact { margin: 0; padding: 0; list-style: none; text-align: right; font-size: 8.8pt; color: var(--muted); line-height: 1.55; }
+
+  section { margin-top: 13px; }
+  h2 { margin: 0 0 6px; font-size: 8.6pt; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); }
+  h3 { margin: 9px 0 2px; font-size: 9.6pt; font-weight: 600; }
+  .group { break-inside: avoid; }
+  p { margin: 0; }
+  .summary p + p { margin-top: 5px; }
+
+  ul { margin: 0; padding-left: 13px; }
+  li { margin: 2px 0; padding-left: 2px; break-inside: avoid; }
+  li::marker { color: var(--accent); }
+  li strong { font-weight: 600; }
+
+  .skills { display: grid; grid-template-columns: 11em 1fr; gap: 3px 12px; }
+  .skills dt { font-weight: 600; }
+  .skills dd { margin: 0; color: var(--muted); }
+
+  .principles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .principles div { border-top: 1px solid var(--rule); padding-top: 5px; }
+  .principles strong { display: block; font-weight: 600; }
+  .principles span { color: var(--muted); font-size: 8.8pt; }
+</style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>Ahmed Magdi</h1>
+      <p class="role">Database Administrator &amp; Passionate Software &amp; DevOps Engineer</p>
+    </div>
+    <ul class="contact">
+      <li><a href="mailto:me@amagdi.dev">me@amagdi.dev</a></li>
+      <li><a href="https://www.linkedin.com/in/ahmedmmagdi/">linkedin.com/in/ahmedmmagdi</a></li>
+      <li><a href="https://github.com/coeur85">github.com/coeur85</a></li>
+    </ul>
+  </header>
+
+  <section class="summary">
+    <h2>Profile</h2>
+    <p>SQL Server database administrator whose work has grown from troubleshooting databases into cloud operations, data-model decisions, integration architecture and reporting to management. Experienced across performance tuning, Azure SQL Managed Instance, backups and high availability, monitoring and incident response, and data engineering.</p>
+    <p>Leads through technical ownership: brings evidence and clear requirements to developers, network teams and stakeholders, and stays with a problem until the fix is confirmed. Uses AI throughout the work, including Claude connected to SQL Server through MCP.</p>
+  </section>
+
+  <section>
+    <h2>Working style</h2>
+    <div class="principles">
+      <div><strong>Evidence first</strong><span>Measure and test before changing anything.</span></div>
+      <div><strong>Clear requirements</strong><span>Know what the business actually needs before designing a fix.</span></div>
+      <div><strong>Collaboration</strong><span>Work side by side with developers, network teams and stakeholders.</span></div>
+      <div><strong>Follow-through</strong><span>A fix isn’t done until someone confirms it works.</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Selected achievements</h2>
+    <ul>
+      <li><strong>Customer deletion and restoration.</strong> Agreed a retention approach with stakeholders (keep order lines, set customer references to NULL), then delivered the schema and stored-procedure changes with specific restoration checks.</li>
+      <li><strong>Customer-lookup API performance.</strong> Analysed the workload behind a slow API, rewrote the stored procedure and added a supporting index; the new version was measurably faster in side-by-side tests.</li>
+      <li><strong>Managed Instance connectivity.</strong> Traced failing Azure SQL Managed Instance connections to network routing and gave the network team the details for the route change; they applied it and confirmed connectivity was restored.</li>
+      <li><strong>Automation failure alerting.</strong> Built and tested an alert for failed Azure Automation runs, confirmed email delivery, then tuned it to stop repeat notifications.</li>
+      <li><strong>Claude + MCP for SQL Server.</strong> Built a Model Context Protocol (MCP) server that lets Claude diagnose SQL Server replication issues in a live production environment.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Project experience</h2>
+
+    <div class="group">
+    <h3>Performance and schema design</h3>
+    <ul>
+      <li>Reviewed a proposed column change and its clustered-index design for risk before it went ahead.</li>
+      <li>Designed date-based table partitioning so growing tables stay manageable.</li>
+    </ul>
+    </div>
+
+    <div class="group">
+    <h3>Azure SQL Managed Instance</h3>
+    <ul>
+      <li>Planned the move of SQL Server workloads to Azure SQL Managed Instance.</li>
+      <li>Scripted and automated database restores on Managed Instance.</li>
+      <li>Reviewed maintenance routines and agent-job visibility on Managed Instance.</li>
+      <li>Investigated private-endpoint connectivity for workloads running on Azure Kubernetes Service.</li>
+    </ul>
+    </div>
+
+    <div class="group">
+    <h3>Backup, recovery and high availability</h3>
+    <ul>
+      <li>Investigated unreliable backup uploads and proposed a proof of concept to fix them.</li>
+      <li>Explored designs for notifying the team automatically when backups complete.</li>
+      <li>Investigated data and redo behaviour on an Always On secondary replica.</li>
+      <li>Designed transactional replication and subscriber retention for data distribution.</li>
+    </ul>
+    </div>
+
+    <div class="group">
+    <h3>Monitoring and incident response</h3>
+    <ul>
+      <li>Designed detailed query monitoring from the application’s point of view, at leadership’s request.</li>
+      <li>Investigated a reported missing-data incident to establish what happened.</li>
+      <li>Validated duplicate localization data, reproduced it with repeated tests, searched the code for its source and brought a focused question to the team standup.</li>
+    </ul>
+    </div>
+
+    <div class="group">
+    <h3>Data engineering and architecture</h3>
+    <ul>
+      <li>Reviewed how the data warehouse loads are orchestrated.</li>
+      <li>Specified a refactored data model and ETL design for device installation data.</li>
+      <li>Configured runtime credentials for SSIS package deployments.</li>
+      <li>Compared architecture options for integrating a third-party system.</li>
+      <li>Explored designs for controlling access to sensitive data.</li>
+      <li>Prepared performance reporting for stakeholders across organizations.</li>
+    </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>AI in my work</h2>
+    <dl class="skills">
+      <dt>Diagnosis</dt><dd>Claude connected to SQL Server through MCP to diagnose live issues.</dd>
+      <dt>Code and scripts</dt><dd>T-SQL, PowerShell, SSIS and automation, written and reviewed with AI.</dd>
+      <dt>Analysis</dt><dd>Query plans, workloads, logs and incidents, read faster with AI.</dd>
+      <dt>Docs and reports</dt><dd>Design comparisons, documentation and stakeholder reports, drafted with AI.</dd>
+    </dl>
+  </section>
+
+  <section>
+    <h2>Skills</h2>
+    <dl class="skills">
+      <dt>Database</dt><dd>SQL Server, Azure SQL Managed Instance, Always On availability groups, transactional replication, query tuning and indexing, table partitioning, backup and restore, database design, MySQL, PostgreSQL</dd>
+      <dt>Data and integration</dt><dd>SSIS, data warehousing and ETL, data modeling, integration architecture, data access design</dd>
+      <dt>Cloud and DevOps</dt><dd>Azure, Azure Automation, Azure Kubernetes Service, Docker, Kubernetes, Terraform, CI/CD pipelines, Git, PowerShell, Bash</dd>
+      <dt>Software engineering</dt><dd>.NET, C#, ASP.NET Core, Blazor, JavaScript, TypeScript, RESTful APIs</dd>
+    </dl>
+  </section>
+</body>
+</html>

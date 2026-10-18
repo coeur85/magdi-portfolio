@@ -1,21 +1,30 @@
 import Header from '@/components/header';
-import Hero from '@/components/hero';
+import Intro from '@/components/intro';
+import About from '@/components/about';
+import Cases from '@/components/cases';
+import Work from '@/components/work';
 import Skills from '@/components/skills';
-import Projects from '@/components/projects';
 import Contact from '@/components/contact';
 import Footer from '@/components/footer';
+import DatabaseCore from '@/components/core/database-core';
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-dvh bg-background">
+    <div className="relative min-h-dvh bg-background">
+      <DatabaseCore />
       <Header />
-      <main className="flex-1">
-        <Hero />
+      <main className="relative z-10">
+        <Intro />
+        <About />
+        <Cases />
+        <Work />
         <Skills />
-        <Projects />
-        <Contact />
+        {/* Contact and footer share the last screen so the contact heading clears the header. */}
+        <div className="flex min-h-[100svh] flex-col">
+          <Contact />
+          <Footer />
+        </div>
       </main>
-      <Footer />
     </div>
   );
 }

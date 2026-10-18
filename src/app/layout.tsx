@@ -1,10 +1,15 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import './globals.css';
-import ClientLayout from './client-layout';
 
 export const metadata: Metadata = {
-  title: 'Ahmed Magdi',
-  description: 'Personal portfolio of Ahmed Magdi, a Software and DevOps Engineer.',
+  title: 'Ahmed Magdi — Database Administrator, Software & DevOps Engineer',
+  description:
+    'Ahmed Magdi keeps data fast, safe and online: SQL Server performance, Azure SQL Managed Instance, backups and high availability, monitoring, data engineering and architecture.',
+};
+
+export const viewport: Viewport = {
+  themeColor: '#000000',
+  colorScheme: 'dark',
 };
 
 export default function RootLayout({
@@ -13,15 +18,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className="dark" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet"></link>
-        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet"></link>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..800&display=swap" rel="stylesheet"></link>
       </head>
       <body className="font-body antialiased" suppressHydrationWarning>
-        <ClientLayout>{children}</ClientLayout>
+        {children}
       </body>
     </html>
   );

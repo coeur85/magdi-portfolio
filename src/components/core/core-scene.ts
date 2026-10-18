@@ -272,15 +272,17 @@ export function createCoreScene(canvas: HTMLCanvasElement): () => void {
   }
 
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  // Rendering is pixel-bound (bloom makes several full-screen passes), so cap the pixels drawn
-  // per frame. The frame-rate monitor in tick() lowers `quality` further on slower GPUs.
-  const PIXEL_BUDGET = 2.2e6;
-  let quality = 1;
+  // Draw at the screen's native sharpness (up to 2x). The frame-rate monitor in tick() steps
+  // down through these levels only when frames stay slow; bloom off is the last resort.
+  const LEVELS = [
+    { quality: 1, bloom: true },
+    { quality: 0.875, bloom: true },
+    { quality: 0.75, bloom: true },
+    { quality: 0.75, bloom: false },
+  ];
+  let level = 0;
   let bloomOn = true;
-  const pixelRatio = () => {
-    const cap = Math.min(window.devicePixelRatio, 1.5, Math.sqrt(PIXEL_BUDGET / (window.innerWidth * window.innerHeight)));
-    return Math.max(0.5, cap * quality);
-  };
+  const pixelRatio = () => Math.max(0.5, Math.min(window.devicePixelRatio, 2) * LEVELS[level].quality);
   renderer.toneMapping = THREE.NeutralToneMapping;
   renderer.outputColorSpace = THREE.SRGBColorSpace;
 
@@ -575,7 +577,7 @@ export function createCoreScene(canvas: HTMLCanvasElement): () => void {
   );
   scene.add(dust);
 
-  const target = new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType, samples: 2 });
+  const target = new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType, samples: 4 });
   const composer = new EffectComposer(renderer, target);
   composer.addPass(new RenderPass(scene, camera));
   const bloom = new UnrealBloomPass(new THREE.Vector2(1, 1), 0.85, 0.55, 0.6);
@@ -706,20 +708,71 @@ export function createCoreScene(canvas: HTMLCanvasElement): () => void {
     return out.applyQuaternion(spinner.quaternion);
   };
 
-  // Steps quality down while frames run slow, then turns bloom off as a last resort,
-  // and steps back up when there is headroom. The first seconds are skipped (shader compiles).
+  // Judges the frame rate over 1.5s windows, by the median frame so one-off hitches (shader
+  // compiles, a busy moment) don't count. Steps down a level only after ~4.5s of slow frames.
+  // If frames are no faster after stepping down to the lowest sharpness, drawing isn't what
+  // slows them (battery saver, a 30Hz display), so full sharpness comes back and stepping
+  // stops; likewise for turning bloom off. Sharpness also comes back once frames run near the
+  // best rate seen; a level that is too slow twice is not tried again.
   let warmup = 2.5;
-  let sampleTime = 0;
-  let sampleFrames = 0;
+  let windowTime = 0;
+  const frameTimes: number[] = [];
+  const recent: number[] = [];
+  let slowWindows = 0;
+  let fastWindows = 0;
+  let peakFps = 0;
+  let floor = LEVELS.length - 1;
+  const strikes = LEVELS.map(() => 0);
+  let stepStart: { level: number; fps: number } | null = null;
+  let judgeBloom: number | null = null;
+  const lastSharpLevel = LEVELS.findIndex((l) => !l.bloom) - 1;
+  // Typical rate of the windows since the last level change, so one noisy window can't decide.
+  const typicalFps = () => {
+    const sorted = [...recent].sort((a, b) => a - b);
+    const mid = sorted.length >> 1;
+    return sorted.length % 2 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
+  };
+  const setLevel = (next: number) => {
+    level = next;
+    bloomOn = LEVELS[level].bloom;
+    resize();
+    warmup = 0.6;
+    recent.length = 0;
+    slowWindows = 0;
+    fastWindows = 0;
+  };
   const adjustQuality = (fps: number) => {
-    if (fps < 45 && quality > 0.55) {
-      quality = Math.max(0.55, quality - 0.15);
-      resize();
-    } else if (fps < 30 && bloomOn) {
-      bloomOn = false;
-    } else if (fps > 57 && bloomOn && quality < 1) {
-      quality = Math.min(1, quality + 0.1);
-      resize();
+    peakFps = Math.max(peakFps, fps);
+    recent.push(fps);
+    if (recent.length > 3) recent.shift();
+    if (judgeBloom !== null) {
+      if (recent.length < 2) return;
+      const before = judgeBloom;
+      judgeBloom = null;
+      if (typicalFps() < before * 1.1) {
+        floor = level - 1;
+        setLevel(floor);
+      }
+      return;
+    }
+    slowWindows = fps < 45 ? slowWindows + 1 : 0;
+    fastWindows = fps >= peakFps * 0.9 ? fastWindows + 1 : 0;
+    if (fps >= 45) stepStart = null;
+    if (slowWindows >= 3 && level < floor) {
+      const now = typicalFps();
+      stepStart ??= { level, fps: now };
+      if (level === lastSharpLevel && stepStart.level < level && now < stepStart.fps * 1.15) {
+        floor = stepStart.level;
+        strikes.fill(0);
+        stepStart = null;
+        setLevel(floor);
+        return;
+      }
+      if (level === lastSharpLevel) judgeBloom = now;
+      strikes[level]++;
+      setLevel(level + 1);
+    } else if (fastWindows >= 4 && level > 0 && strikes[level - 1] < 2) {
+      setLevel(level - 1);
     }
   };
 
@@ -740,12 +793,13 @@ export function createCoreScene(canvas: HTMLCanvasElement): () => void {
     if (warmup > 0) {
       warmup -= Math.max(frameTime, 0);
     } else if (frameTime > 0 && frameTime < 2) {
-      sampleTime += frameTime;
-      sampleFrames++;
-      if (sampleTime > 1.5) {
-        adjustQuality(sampleFrames / sampleTime);
-        sampleTime = 0;
-        sampleFrames = 0;
+      windowTime += frameTime;
+      frameTimes.push(frameTime);
+      if (windowTime > 1.5) {
+        frameTimes.sort((a, b) => a - b);
+        adjustQuality(1 / frameTimes[frameTimes.length >> 1]);
+        windowTime = 0;
+        frameTimes.length = 0;
       }
     }
     elapsed += dt * (reducedMotion ? 0.3 : 1);

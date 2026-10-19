@@ -7,10 +7,16 @@ import Skills from '@/components/skills';
 import Contact from '@/components/contact';
 import Footer from '@/components/footer';
 import DatabaseCore from '@/components/core/database-core';
+import { structuredData } from '@/lib/seo';
 
 export default function Home() {
   return (
     <div className="relative min-h-dvh bg-background">
+      <script
+        type="application/ld+json"
+        // Escape "<" so the JSON can't close the script tag.
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, '\\u003c') }}
+      />
       <DatabaseCore />
       <Header />
       <main className="relative z-10">

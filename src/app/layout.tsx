@@ -1,11 +1,8 @@
 import type { Metadata, Viewport } from 'next';
+import { siteMetadata } from '@/lib/seo';
 import './globals.css';
 
-export const metadata: Metadata = {
-  title: 'Ahmed Magdi — Database Administrator, Software & DevOps Engineer',
-  description:
-    'Ahmed Magdi keeps data fast, safe and online: SQL Server performance, Azure SQL Managed Instance, backups and high availability, monitoring, data engineering and architecture.',
-};
+export const metadata: Metadata = siteMetadata;
 
 export const viewport: Viewport = {
   themeColor: '#000000',

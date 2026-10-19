@@ -16,7 +16,7 @@ export default function Footer() {
               key={label}
               href={href}
               target={href.startsWith('mailto:') ? undefined : '_blank'}
-              rel="noreferrer"
+              rel="me noreferrer"
               prefetch={false}
               className="text-muted-foreground transition-colors hover:text-foreground"
             >

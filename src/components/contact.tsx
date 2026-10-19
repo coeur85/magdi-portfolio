@@ -62,7 +62,7 @@ export default function Contact() {
             <Link
               href={href}
               target={href.startsWith('mailto:') ? undefined : '_blank'}
-              rel="noreferrer"
+              rel="me noreferrer"
               prefetch={false}
               className="flex items-center gap-2.5 rounded-full border border-white/15 bg-black/60 px-5 py-3 text-sm font-medium text-foreground/90 transition-all hover:border-accent/60 hover:bg-accent/10 hover:text-foreground active:scale-95"
             >

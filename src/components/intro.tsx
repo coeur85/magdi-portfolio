@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { Fragment, useRef } from 'react';
 import Link from 'next/link';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Download, Linkedin } from 'lucide-react';
@@ -31,7 +31,7 @@ export default function Intro() {
             {/* eslint-disable-next-line @next/next/no-img-element -- static export, no image optimizer */}
             <img
               src={profile.photo}
-              alt={profile.name}
+              alt={`Portrait of ${profile.name}`}
               width={80}
               height={80}
               className="h-16 w-16 rounded-full object-cover ring-2 ring-accent/60 ring-offset-2 ring-offset-black sm:h-20 sm:w-20"
@@ -40,16 +40,19 @@ export default function Intro() {
             <span className="text-sm font-semibold uppercase tracking-[0.2em] text-foreground">Hi, I&apos;m</span>
           </motion.div>
           <h1 className="pb-2 text-6xl font-semibold leading-[0.95] tracking-[-0.045em] sm:text-7xl lg:text-8xl">
+            {/* Each word is its own block line; the spaces keep the heading's text "Ahmed Magdi", not "AhmedMagdi". */}
             {profile.name.split(' ').map((word, i) => (
-              <motion.span
-                key={word}
-                initial={{ opacity: 0, y: 40, filter: 'blur(12px)' }}
-                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                transition={{ duration: 1.1, delay: 0.35 + i * 0.15, ease }}
-                className="text-gradient block pb-2"
-              >
-                {word}
-              </motion.span>
+              <Fragment key={word}>
+                {i > 0 && ' '}
+                <motion.span
+                  initial={{ opacity: 0, y: 40, filter: 'blur(12px)' }}
+                  animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                  transition={{ duration: 1.1, delay: 0.35 + i * 0.15, ease }}
+                  className="text-gradient block pb-2"
+                >
+                  {word}
+                </motion.span>
+              </Fragment>
             ))}
           </h1>
           <motion.h2
@@ -92,7 +95,7 @@ export default function Intro() {
             <Link
               href={profile.linkedin}
               target="_blank"
-              rel="noreferrer"
+              rel="me noreferrer"
               prefetch={false}
               aria-label="LinkedIn"
               className="flex items-center gap-2 rounded-full border border-white/20 px-3.5 py-3 text-sm font-medium text-foreground/90 transition hover:border-accent/60 hover:text-foreground active:scale-95 sm:px-6"

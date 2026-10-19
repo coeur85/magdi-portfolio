@@ -1,0 +1,60 @@
+<!doctype html>
+<!--
+  Source for public/og.png, the preview image shown when the site is shared (LinkedIn, X, chat apps).
+  Regenerate after editing (1200x630):
+    chrome --headless --hide-scrollbars --window-size=1200,630 --screenshot=public/og.png docs/og.html
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Ahmed Magdi — share image</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+<style>
+  :root { --accent: #2997ff; --ink: #f4f4f6; --muted: #9d9da3; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; background: #000; }
+  body {
+    position: relative;
+    display: flex; align-items: center; gap: 72px; padding: 0 88px;
+    font-family: Inter, 'Helvetica Neue', Arial, sans-serif; color: var(--ink);
+    background:
+      radial-gradient(520px 420px at 960px 330px, rgba(41, 151, 255, 0.32), transparent 70%),
+      radial-gradient(700px 300px at 200px 700px, rgba(41, 151, 255, 0.12), transparent 70%),
+      #000;
+  }
+  .text { flex: 1; }
+  .logo { display: flex; align-items: center; gap: 12px; color: var(--ink); font-size: 22px; font-weight: 500; letter-spacing: -0.01em; }
+  .logo svg { width: 50px; height: 20px; }
+  h1 {
+    margin: 44px 0 0; font-size: 104px; font-weight: 600; line-height: 0.95; letter-spacing: -0.045em;
+    background: linear-gradient(180deg, #fff, rgba(255, 255, 255, 0.6)); -webkit-background-clip: text; background-clip: text; color: transparent;
+    padding-bottom: 8px;
+  }
+  .role { margin: 26px 0 0; font-size: 30px; font-weight: 500; letter-spacing: -0.015em; line-height: 1.25; }
+  .role span { color: var(--muted); }
+  .url { margin-top: 40px; font-size: 24px; font-weight: 500; color: var(--accent); letter-spacing: -0.01em; }
+  .photo {
+    width: 300px; height: 300px; border-radius: 50%; flex: none;
+    object-fit: cover; object-position: center 30%;
+    border: 4px solid rgba(41, 151, 255, 0.75);
+    box-shadow: 0 0 0 10px #000, 0 0 0 12px rgba(41, 151, 255, 0.35), 0 0 120px rgba(41, 151, 255, 0.55);
+  }
+</style>
+</head>
+<body>
+  <div class="text">
+    <div class="logo">
+      <!-- Same mark as src/components/logo.tsx -->
+      <svg viewBox="2 18 45 18" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="9.6" cy="27" r="5.6" />
+        <path d="M15.2 21.4 V32.6 M19.6 32.6 V21.4 M19.6 25.4 a4 4 0 0 1 8 0 V32.6 M27.6 25.4 a4 4 0 0 1 8 0 V32.6" />
+        <rect x="38.4" y="29.4" width="7" height="3.2" rx="1" fill="#2997ff" stroke="none" />
+      </svg>
+    </div>
+    <h1>Ahmed Magdi</h1>
+    <p class="role">Database Administrator<br><span>Software &amp; DevOps Engineer</span></p>
+    <div class="url">amagdi.dev</div>
+  </div>
+  <img class="photo" src="../public/images/profile.jpeg" alt="">
+</body>
+</html>

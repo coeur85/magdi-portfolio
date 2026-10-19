@@ -36,8 +36,12 @@ export type Chapter = {
 
 export const profile = {
   name: 'Ahmed Magdi',
+  // Other spellings people search for; listed in the page's structured data.
+  alternateNames: ['Ahmed Magdy'],
   title: 'Database Administrator & Passionate Software & DevOps Engineer',
   tagline: 'Keeping SQL Server fast, recoverable and well monitored, including on Azure.',
+  // The site's public address. The canonical URL, sitemap and structured data build on it.
+  url: 'https://amagdi.dev',
   photo: '/images/profile.jpeg',
   email: 'me@amagdi.dev',
   linkedin: 'https://www.linkedin.com/in/ahmedmmagdi/',
